@@ -193,8 +193,13 @@
       <button class="sg-mode-btn active" data-mode="smartMemorable"  id="sg-mode-memorable"   role="tab" aria-selected="true">Memorable</button>
       <button class="sg-mode-btn"        data-mode="passphrase"      id="sg-mode-passphrase"  role="tab" aria-selected="false">Passphrase</button>
       <button class="sg-mode-btn"        data-mode="maxSecurity"     id="sg-mode-max"         role="tab" aria-selected="false">Max Security</button>
+      <button class="sg-mode-btn sg-mode-btn--personal" data-mode="personalSecure" id="sg-mode-personal" role="tab" aria-selected="false">Personalized</button>
     </div>
-    <div class="sg-mode-hint" id="sg-mode-hint">Title-cased words + number — easy to type, hard to crack</div>
+    <!-- New-password detection banner (hidden until content script fires) -->
+    <div class="sg-newpw-banner" id="sg-newpw-banner" hidden>
+      New password field detected &mdash; generate a strong one
+    </div>
+    <div class="sg-mode-hint" id="sg-mode-hint">Title-cased words + number &mdash; easy to type, hard to crack</div>
 
     <!-- Editable password output -->
     <div class="sg-output-card">
@@ -223,6 +228,20 @@
         <span class="sg-score-sep"> bits</span>
       </div>
       <div class="sg-crack-hint" id="sg-crack-hint"></div>
+      <!-- Warning badge: live check for predictable personal patterns -->
+      <div class="sg-warn-badge" id="sg-warn-badge" hidden></div>
+      <!-- Explain strip: shown after Personalized generation -->
+      <div class="sg-explain-strip" id="sg-explain-strip" hidden>
+        <div class="sg-explain-row">
+          <span class="sg-explain-label">Strength</span>
+          <span class="sg-explain-val" id="sg-explain-strength">&mdash;</span>
+        </div>
+        <div class="sg-explain-row">
+          <span class="sg-explain-label">Personal Risk</span>
+          <span class="sg-explain-val" id="sg-explain-personal">&mdash;</span>
+        </div>
+        <div class="sg-explain-reason" id="sg-explain-reason"></div>
+      </div>
     </div>
 
     <!-- Actions -->

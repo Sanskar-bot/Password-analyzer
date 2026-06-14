@@ -21,7 +21,8 @@ const DEFAULT_SETTINGS = {
 };
 
 //  Tab score state (in-memory, resets on SW restart) 
-const tabScores = new Map(); // tabId  { score, category, color, fieldCount }
+const tabScores      = new Map(); // tabId → { score, category, color, fieldCount }
+const tabNewPwCtx    = new Map(); // tabId → { isNewPassword: boolean, url: string }
 
 //  Install 
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
@@ -68,6 +69,20 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     case 'GET_TAB_SCORE': {
       const tid = msg.tabId;
       sendResponse(tabScores.get(tid) || null);
+      break;
+    }
+
+    // Content script reports a new-password context (signup / registration page)
+    case 'NEW_PASSWORD_CONTEXT': {
+      if (tabId) tabNewPwCtx.set(tabId, { isNewPassword: msg.isNewPassword, url: msg.url });
+      sendResponse({ ok: true });
+      break;
+    }
+
+    // Popup queries whether the active tab has a new-password context
+    case 'GET_NEW_PASSWORD_CONTEXT': {
+      const ctx = tabNewPwCtx.get(msg.tabId) || { isNewPassword: false, url: '' };
+      sendResponse(ctx);
       break;
     }
 
@@ -169,11 +184,13 @@ async function updateBadge(tabId) {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
   if (changeInfo.status === 'loading') {
     tabScores.delete(tabId);
+    tabNewPwCtx.delete(tabId);   // ← also clear new-pw context on navigate
     chrome.action.setBadgeText({ text: '', tabId });
   }
 });
 
 chrome.tabs.onRemoved.addListener((tabId) => {
   tabScores.delete(tabId);
+  tabNewPwCtx.delete(tabId);
 });
 

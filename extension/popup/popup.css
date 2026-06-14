@@ -1141,3 +1141,88 @@ body::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.2); border-radius: 
   padding: 2px 0;
 }
 .pp-privacy-note svg { color: var(--accent-green); flex-shrink: 0; }
+
+/* ============================================================
+   PERSONALIZED GENERATOR + NEW-PASSWORD BANNER  (popup v3)
+   ============================================================ */
+
+/* Personalized tab — indigo accent */
+.sg-mode-btn--personal { color: rgba(167,139,250,0.75) !important; }
+.sg-mode-btn--personal.active {
+  background: linear-gradient(135deg,#6d28d9,#7c3aed) !important;
+  color:#fff !important;
+  box-shadow: 0 0 14px rgba(109,40,217,0.4) !important;
+}
+
+/* New-password detection banner */
+.sg-newpw-banner {
+  margin: 6px 0 4px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  background: rgba(20,184,166,0.12);
+  border: 1px solid rgba(20,184,166,0.28);
+  color: #2dd4bf;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  animation: sgFadeIn 0.3s ease;
+}
+
+/* Warning badge */
+.sg-warn-badge {
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 7px;
+  background: rgba(245,158,11,0.11);
+  border: 1px solid rgba(245,158,11,0.28);
+  color: #fbbf24;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  animation: sgFadeIn 0.2s ease;
+}
+
+/* Explain strip */
+.sg-explain-strip {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  animation: sgFadeIn 0.3s ease;
+}
+.sg-explain-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.sg-explain-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+.sg-explain-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  text-align: right;
+}
+.sg-explain-reason {
+  margin-top: 7px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.38);
+  line-height: 1.55;
+  font-style: italic;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 6px;
+}
+
+@keyframes sgFadeIn {
+  from { opacity:0; transform:translateY(-4px); }
+  to   { opacity:1; transform:none; }
+}

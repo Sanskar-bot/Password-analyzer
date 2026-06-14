@@ -18,6 +18,8 @@ import { estimateCrackTimes }            from '../modules/bruteforce.js';
 import { computeScore, CATEGORIES }      from '../modules/scorer.js';
 import { generateSuggestions }           from '../modules/suggestions.js';
 import { generateSmartPassword, scoreGeneratedPassword } from '../modules/smartGenerator.js';
+import { generatePersonalPassword, checkVulnerability, explainPassword,
+         isProfileFilled, countFilledFields } from '../modules/personalGenerator.js';
 import { warmCache, lookup, invalidate, isReady } from '../modules/dictCache.js';
 import { getProfile, getDictMeta, getHistory, addToHistory } from '../modules/profileStore.js';
 
@@ -117,6 +119,14 @@ const sgOptSep      = $('sg-opt-sep');
 const sgOptCaps     = $('sg-opt-caps');
 const sgOptTheme    = $('sg-opt-theme');
 
+// Personalized mode new DOM refs
+const sgNewPwBanner     = $('sg-newpw-banner');
+const sgWarnBadge       = $('sg-warn-badge');
+const sgExplainStrip    = $('sg-explain-strip');
+const sgExplainStrength = $('sg-explain-strength');
+const sgExplainPersonal = $('sg-explain-personal');
+const sgExplainReason   = $('sg-explain-reason');
+
 // Profile tab (Tab 3)
 const ppNoProfile = $('pp-no-profile');
 const ppProfile   = $('pp-profile');
@@ -144,9 +154,10 @@ let dictCacheReady  = false;
 
 // Mode metadata
 const SG_MODES = {
-  smartMemorable: { hint: 'Title-cased words + number — easy to type, hard to crack', showWc: true,  showSep: true,  showCaps: true,  showTheme: true  },
-  passphrase:     { hint: 'Lowercase words joined by separator — high entropy through length',       showWc: true,  showSep: true,  showCaps: false, showTheme: false },
-  maxSecurity:    { hint: 'Cryptographically random characters — maximum entropy',                   showWc: false, showSep: false, showCaps: false, showTheme: false },
+  smartMemorable: { hint: 'Title-cased words + number — easy to type, hard to crack',      showWc: true,  showSep: true,  showCaps: true,  showTheme: true  },
+  passphrase:     { hint: 'Lowercase words joined by separator — high entropy through length', showWc: true,  showSep: true,  showCaps: false, showTheme: false },
+  maxSecurity:    { hint: 'Cryptographically random characters — maximum entropy',            showWc: false, showSep: false, showCaps: false, showTheme: false },
+  personalSecure: { hint: 'Memory anchors from your profile — memorable to you, opaque to attackers', showWc: true, showSep: false, showCaps: true, showTheme: false },
 };
 
 //  Init: load profile + dict meta + warm cache 
@@ -203,15 +214,48 @@ async function initFromPage() {
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab?.id) return;
-    const response = await chrome.tabs.sendMessage(tab.id, { type: 'GET_PASSWORD' });
-    if (response?.password) {
+
+    // Check password field + new-password context in parallel
+    const [pwResponse, ctxResponse] = await Promise.allSettled([
+      chrome.tabs.sendMessage(tab.id, { type: 'GET_PASSWORD' }),
+      chrome.runtime.sendMessage({ type: 'GET_NEW_PASSWORD_CONTEXT', tabId: tab.id }),
+    ]);
+
+    // Import password if available
+    const pwData = pwResponse.status === 'fulfilled' ? pwResponse.value : null;
+    if (pwData?.password) {
       fromPageRow.style.display = 'flex';
       usePagePwBtn.addEventListener('click', () => {
-        passwordInput.value = response.password;
-        if (response.username) usernameInput.value = response.username;
+        passwordInput.value = pwData.password;
+        if (pwData.username) usernameInput.value = pwData.username;
         fromPageRow.style.display = 'none';
         analyse();
       });
+    }
+
+    // Handle new-password context: auto-switch to Generate tab
+    const ctx = ctxResponse.status === 'fulfilled' ? ctxResponse.value : null;
+    if (ctx?.isNewPassword) {
+      // Switch to Generate tab
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabPanels.forEach(p => p.classList.remove('active'));
+      const genTabBtn = document.querySelector('[data-tab="generate"]');
+      if (genTabBtn) genTabBtn.classList.add('active');
+      $('panel-generate').classList.add('active');
+
+      // Show the new-password banner
+      if (sgNewPwBanner) sgNewPwBanner.hidden = false;
+
+      // If profile is filled, auto-select Personalized mode
+      const mappedProfile = mapProfileToGenerator(profileData);
+      if (profileData && isProfileFilled(mappedProfile)) {
+        sgModeBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+        const personalBtn = $('sg-mode-personal');
+        if (personalBtn) { personalBtn.classList.add('active'); personalBtn.setAttribute('aria-selected', 'true'); }
+        sgCurrentMode = 'personalSecure';
+        sgUpdateModeUI('personalSecure');
+        sgGenerate();
+      }
     }
   } catch (_) {
     // Page doesn't have content script (e.g., chrome:// pages)
@@ -454,6 +498,27 @@ modeBtns.forEach(btn => {
 
 // ── Smart Generator Controller ────────────────────────────────────────────────
 
+// ── Profile field adapter ─────────────────────────────────────────────────────
+// Maps profile.html / profileStore field names to personalGenerator.js shape
+function mapProfileToGenerator(p) {
+  if (!p) return {};
+  return {
+    name:           p.firstName        || '',
+    surname:        p.lastName         || '',
+    nick:           p.nickname         || '',
+    username:       p.username         || '',
+    pet:            p.petName          || '',
+    partner:        p.partnerName      || '',
+    company:        p.companyName      || '',
+    dob:            p.dateOfBirth      || '',
+    favoriteNumber: p.favoriteNumber   || '',
+    gamerTag:       p.gamerTag         || '',
+    sportsTeam:     p.sportsTeam       || '',
+    commonAlias:    p.commonAlias      || '',
+    customKeywords: Array.isArray(p.customKeywords) ? p.customKeywords : [],
+  };
+}
+
 function sgGetOpts() {
   return {
     wordCount:  parseInt(sgWcSlider?.value ?? '3', 10),
@@ -499,14 +564,48 @@ function sgRenderScore(res) {
 function sgGenerate() {
   sgGenBtn.textContent = 'Generating…';
   sgGenBtn.disabled    = true;
-  setTimeout(() => {
+  if (sgExplainStrip) sgExplainStrip.hidden = true;
+  if (sgWarnBadge)    sgWarnBadge.hidden    = true;
+
+  setTimeout(async () => {
     try {
-      const result = generateSmartPassword(sgCurrentMode, sgGetOpts());
-      if (result) {
-        sgPwField.value = result.password;
-        sgRenderScore(result);
+      if (sgCurrentMode === 'personalSecure') {
+        // ── Personalized mode ──
+        const mappedProfile = mapProfileToGenerator(profileData);
+        const result = generatePersonalPassword(mappedProfile, {
+          ...sgGetOpts(),
+          dictionary: null,   // fast path — dict check via checkVulnerability inside
+        });
+        if (result) {
+          sgPwField.value = result.password;
+          sgRenderScore(result);
+          // Render explain strip
+          if (sgExplainStrip) {
+            sgExplainStrength.textContent = `${result.score}/100 — ${result.category}`;
+            sgExplainPersonal.textContent = '—';   // personal dict check is async
+            const { strengthLine, personalLine, reason } = explainPassword(
+              result.password, mappedProfile, result, null,
+              result.categories || [], result.directAnchors || []
+            );
+            sgExplainStrength.textContent = strengthLine;
+            sgExplainReason.textContent   = reason;
+            sgExplainStrip.hidden = false;
+          }
+        } else {
+          sgPwField.placeholder = isProfileFilled(mapProfileToGenerator(profileData))
+            ? 'Could not generate — try regenerating'
+            : 'Fill your profile first — open Profile tab';
+        }
       } else {
-        sgPwField.placeholder = 'Generation failed — try different options';
+        // ── Standard modes ──
+        const result = generateSmartPassword(sgCurrentMode, sgGetOpts());
+        if (result) {
+          sgPwField.value = result.password;
+          sgRenderScore(result);
+          if (sgExplainStrip) sgExplainStrip.hidden = true;
+        } else {
+          sgPwField.placeholder = 'Generation failed — try different options';
+        }
       }
     } catch (e) {
       console.error('[VaultZero Generator]', e);
@@ -524,10 +623,25 @@ function sgLiveAnalyse() {
     sgBarWrap.style.display  = 'none';
     sgScoreRow.style.display = 'none';
     sgCrackHint.textContent  = '';
+    if (sgWarnBadge) sgWarnBadge.hidden = true;
     return;
   }
   const res = scoreGeneratedPassword(pw);
   sgRenderScore(res);
+
+  // Live vulnerability check in Personalized mode
+  if (sgCurrentMode === 'personalSecure' && sgWarnBadge) {
+    const mappedProfile = mapProfileToGenerator(profileData);
+    const { vulnerable, reason } = checkVulnerability(pw, mappedProfile, null);
+    if (vulnerable) {
+      sgWarnBadge.textContent = `Warning: ${reason}`;
+      sgWarnBadge.hidden = false;
+    } else {
+      sgWarnBadge.hidden = true;
+    }
+  } else if (sgWarnBadge) {
+    sgWarnBadge.hidden = true;
+  }
 }
 
 // Mode tabs

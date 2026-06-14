@@ -142,8 +142,37 @@
 
     let debounceTimer = null;
 
+    // ── New-password context detection ─────────────────────────────────────
+    // Fired once when the user focuses the input so popup can auto-switch to
+    // the Generate tab and pre-select Personalized mode.
+    function detectNewPasswordContext() {
+      try {
+        const isNewPwAttr = input.autocomplete === 'new-password' ||
+                            input.getAttribute('autocomplete') === 'new-password';
+
+        // Two password fields on the same form → registration pattern
+        const form = input.closest('form') || document;
+        const allPwFields = [...form.querySelectorAll('input[type="password"]')];
+        const twoFields   = allPwFields.length >= 2;
+
+        // Registration keywords anywhere on the page
+        const pageText = (document.title + ' ' + document.body.innerText).toLowerCase().slice(0, 3000);
+        const regKeywords = ['sign up','register','create account','new account','join','get started'];
+        const hasRegKw = regKeywords.some(kw => pageText.includes(kw));
+
+        const isNewPassword = isNewPwAttr || twoFields || hasRegKw;
+
+        chrome.runtime.sendMessage({
+          type:          'NEW_PASSWORD_CONTEXT',
+          isNewPassword,
+          url:           window.location.hostname,
+        }).catch(() => {});
+      } catch (_) {}
+    }
+
     // BUG FIX: React/SPA sites (Instagram, Gmail, etc.) fire synthetic events
     // that bypass the native DOM "input" event. Listen to multiple event types.
+
     function onValueChange() {
       if (!settings.enableWidget) return;
       repositionWidget();
@@ -163,7 +192,9 @@
     input.addEventListener('focus', () => {
       showWidget();
       loadDictCache();
+      detectNewPasswordContext();   // ← tell popup if this is a new-password field
       clearInterval(pollInterval);
+
       pollInterval = setInterval(() => {
         if (input.value !== state.lastPassword) onValueChange();
       }, 250);
