@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VaultZero — Security Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="profile.css" />
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+  <header class="page-header">
+    <a href="javascript:window.close()" class="back-btn" id="back-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Back
+    </a>
+    <div class="header-brand">
+      <div class="brand-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+          <path d="M12 2L3 6v6c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V6L12 2z"/>
+          <path d="M9 12l2 2 4-4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <span class="brand-name">VaultZero</span>
+        <span class="brand-sub">Security Profile</span>
+      </div>
+    </div>
+    <div class="privacy-pill">100% Local</div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       WIZARD VIEW (shown when #setup or no profile)
+  ══════════════════════════════════════════════════════════════════════ -->
+  <div id="wizard-view" style="display:none">
+
+    <!-- Step indicators -->
+    <div class="wizard-steps" id="wizard-steps">
+      <div class="step-item active" id="step-ind-1">
+        <div class="step-dot">1</div>
+        <span class="step-label">Welcome</span>
+      </div>
+      <div class="step-connector" id="conn-1-2"></div>
+      <div class="step-item" id="step-ind-2">
+        <div class="step-dot">2</div>
+        <span class="step-label">Your Profile</span>
+      </div>
+      <div class="step-connector" id="conn-2-3"></div>
+      <div class="step-item" id="step-ind-3">
+        <div class="step-dot">3</div>
+        <span class="step-label">Building</span>
+      </div>
+    </div>
+
+    <!-- ── Step 1: Welcome ──────────────────────────────────────────────── -->
+    <div class="wizard-panel active" id="wizard-step-1">
+      <div class="welcome-hero">
+        <div class="hero-shield">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L3 6v6c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V6L12 2z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <h1 class="hero-title">Your Personal Security Shield</h1>
+        <p class="hero-sub">
+          Most password checkers only test generic strength. VaultZero goes further —
+          it tests whether your password would survive a targeted attack against <em>you</em>.
+        </p>
+
+        <div class="privacy-guarantee">
+          <div class="guar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="guar-title">Your profile never leaves your browser.</div>
+            <div class="guar-desc">All analysis runs locally. No servers, no uploads, no accounts. Ever.</div>
+          </div>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <div class="feature-title">Targeted Attack Sim</div>
+            <div class="feature-desc">10,000–15,000 personalized attack candidates</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-title">Instant Results</div>
+            <div class="feature-desc">Pre-computed dictionary — &lt;5ms lookups</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <div class="feature-title">100% Private</div>
+            <div class="feature-desc">Browser-local storage only</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg" id="wizard-next-1">
+          Begin Security Setup
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Step 2: Profile Form ─────────────────────────────────────────── -->
+    <div class="wizard-panel" id="wizard-step-2">
+
+      <div class="privacy-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        All fields are <strong>optional</strong>. More info = more accurate personalized analysis. Everything is stored locally.
+      </div>
+
+      <!-- Identity -->
+      <div class="form-section-title">Identity</div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label><span class="field-icon">👤</span> First Name</label>
+          <input type="text" id="pf-firstName" placeholder="e.g. Sanskar" autocomplete="off" />
+        </div>
+        <div class="form-field">
+          <label><span class="field-icon">👤</span> Last Name</label>
+          <input type="text" id="pf-lastName" placeholder="e.g. Phougat" autocomplete="off" />
+        </div>
+        <div class="form-field">
+          <label><span class="field-icon">😎</span> Nickname</label>
+          <input type="text" id="pf-nickname" placeholder="e.g. Sandy" autocomplete="off" />
+        </div>
+        <div class="form-field">
+          <label><span class="field-icon">@</span> Username</label>
+          <input type="text" id="pf-username" placeholder="e.g. sanskar99" autocomplete="off" />
+        </div>
+        <div class="form-field">
+          <label><span class="field-icon">🎂</span> Date of Birth</label>
+          <input type="date" id="pf-dob" />
+        </div>
+        <div class="form-field">
+          <label><span class="field-icon">#️⃣</span> Favourite Number</label>
+          <input type="text" id="pf-favoriteNumber" placeholder="e.g. 7" autocomplete="off" maxlength="8" />
+        </div>
+      </div>
+
+      <!-- Relationships -->
+      <div class="form-section-title">People & Pets</div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label><span class="field-icon">❤️</span> Partner's Name</label>
+          <input type="text" id="pf-partnerName" placeholder="e.g. Priya" autocomplete="off" />
+        </div>
+        <div class="form-field">
+          <label><span class="field-icon">🐾</span> Pet's Name</label>
+          <input type="text" id="pf-petName" placeholder="e.g. Bruno" autocomplete="off" />
+        </div>
+        <div class="form-field">
+          <label><span class="field-icon">🏢</span> Company / School</label>
+          <input type="text" id="pf-companyName" placeholder="e.g. Google" autocomplete="off" />
+        </div>
+        <div class="form-field">
+          <label><span class="field-icon">⚽</span> Favourite Sports Team</label>
+          <input type="text" id="pf-sportsTeam" placeholder="e.g. CSK" autocomplete="off" />
+        </div>
+      </div>
+
+      <!-- Digital Identity -->
+      <div class="form-section-title">Digital Identity</div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label><span class="field-icon">🎮</span> Gamer Tag</label>
+          <input type="text" id="pf-gamerTag" placeholder="e.g. xSandy" autocomplete="off" />
+        </div>
+        <div class="form-field">
+          <label><span class="field-icon">🔖</span> Common Alias</label>
+          <input type="text" id="pf-commonAlias" placeholder="e.g. san" autocomplete="off" />
+        </div>
+        <div class="form-field form-grid single">
+          <label><span class="field-icon">🔑</span> Custom Keywords <span class="optional-tag">comma-separated</span></label>
+          <input type="text" id="pf-customKeywords" placeholder="e.g. cricket, chai, 2004" autocomplete="off" />
+          <span class="form-hint">Words you commonly use in passwords</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-ghost" id="wizard-skip-2">Skip Setup</button>
+        <div class="form-actions-right">
+          <button class="btn btn-secondary" id="wizard-back-2">← Back</button>
+          <button class="btn btn-primary" id="wizard-next-2" id="build-profile-btn">
+            Build My Profile
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Step 3: Generating ───────────────────────────────────────────── -->
+    <div class="wizard-panel" id="wizard-step-3">
+      <div class="gen-progress-wrap" id="gen-in-progress">
+        <div class="gen-spinner-ring" id="gen-spinner"></div>
+        <div class="gen-title">Building Your Attack Profile</div>
+        <div class="gen-sub" id="gen-sub-text">Generating personalized attack candidates…</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="gen-progress-fill" style="width:5%"></div>
+        </div>
+        <div class="progress-pct" id="gen-progress-pct">5%</div>
+      </div>
+
+      <div class="gen-done" id="gen-done" style="display:none">
+        <div class="done-check">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <div class="done-title">Profile Ready!</div>
+        <div class="done-sub">Your personalized attack dictionary has been generated.</div>
+        <div class="done-stats">
+          <div class="done-stat">
+            <span class="done-stat-val" id="done-dict-size">—</span>
+            <span class="done-stat-key">Attack Candidates</span>
+          </div>
+          <div class="done-stat">
+            <span class="done-stat-val" id="done-time">—</span>
+            <span class="done-stat-key">Generation Time</span>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg" id="done-close-btn">
+          Start Using VaultZero
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /wizard-view -->
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       MANAGEMENT VIEW (shown when profile already exists)
+  ══════════════════════════════════════════════════════════════════════ -->
+  <div id="manage-view" style="display:none">
+    <div class="manage-view">
+
+      <!-- Profile summary card -->
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <div class="profile-avatar" id="mgmt-avatar">?</div>
+          <div>
+            <div class="profile-name" id="mgmt-name">Loading…</div>
+            <div class="profile-meta" id="mgmt-meta">—</div>
+          </div>
+          <div class="profile-badge" id="mgmt-completeness">0/13 fields</div>
+        </div>
+        <div class="profile-fields" id="mgmt-fields">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Stale dictionary warning (shown if dict is outdated) -->
+      <div class="stale-warning" id="stale-warning" style="display:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        Your attack profile is outdated. Regenerate it to reflect profile changes.
+      </div>
+
+      <!-- Dictionary status card -->
+      <div class="dict-card">
+        <div class="dict-card-header">
+          <div class="dict-card-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            Attack Profile
+          </div>
+          <button class="regen-btn" id="regen-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"/>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
+            Regenerate
+          </button>
+        </div>
+        <div id="dict-has-data">
+          <div class="dict-stats-row">
+            <div class="dict-stat">
+              <span class="dict-stat-val" id="mgmt-dict-size">—</span>
+              <span class="dict-stat-key">Candidates</span>
+            </div>
+            <div class="dict-stat">
+              <span class="dict-stat-val" id="mgmt-dict-date">—</span>
+              <span class="dict-stat-key">Generated</span>
+            </div>
+            <div class="dict-stat">
+              <span class="dict-stat-val" id="mgmt-dict-version">—</span>
+              <span class="dict-stat-key">Version</span>
+            </div>
+          </div>
+        </div>
+        <div id="dict-no-data" style="display:none">
+          <div class="dict-no-data">No attack profile generated yet.</div>
+        </div>
+        <!-- Regen progress (hidden by default) -->
+        <div id="regen-progress" style="display:none; margin-top:14px">
+          <div class="progress-track">
+            <div class="progress-fill" id="regen-progress-fill" style="width:5%"></div>
+          </div>
+          <div class="progress-pct" id="regen-progress-pct" style="margin-top:6px">5%</div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="manage-actions">
+        <button class="btn btn-primary" id="edit-profile-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          Edit Profile
+        </button>
+        <button class="btn btn-secondary" id="export-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Export Profile
+        </button>
+        <button class="btn btn-danger" id="delete-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+          </svg>
+          Delete Profile
+        </button>
+      </div>
+    </div>
+  </div><!-- /manage-view -->
+
+  <!-- Edit form (inline, shown when editing) -->
+  <div id="edit-view" style="display:none">
+    <div class="privacy-note">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      Updating your profile will automatically trigger a new attack profile generation.
+    </div>
+
+    <div class="form-section-title">Identity</div>
+    <div class="form-grid">
+      <div class="form-field"><label>First Name</label><input type="text" id="ef-firstName" autocomplete="off" /></div>
+      <div class="form-field"><label>Last Name</label><input type="text" id="ef-lastName" autocomplete="off" /></div>
+      <div class="form-field"><label>Nickname</label><input type="text" id="ef-nickname" autocomplete="off" /></div>
+      <div class="form-field"><label>Username</label><input type="text" id="ef-username" autocomplete="off" /></div>
+      <div class="form-field"><label>Date of Birth</label><input type="date" id="ef-dob" /></div>
+      <div class="form-field"><label>Favourite Number</label><input type="text" id="ef-favoriteNumber" autocomplete="off" maxlength="8" /></div>
+    </div>
+
+    <div class="form-section-title">People & Pets</div>
+    <div class="form-grid">
+      <div class="form-field"><label>Partner's Name</label><input type="text" id="ef-partnerName" autocomplete="off" /></div>
+      <div class="form-field"><label>Pet's Name</label><input type="text" id="ef-petName" autocomplete="off" /></div>
+      <div class="form-field"><label>Company / School</label><input type="text" id="ef-companyName" autocomplete="off" /></div>
+      <div class="form-field"><label>Sports Team</label><input type="text" id="ef-sportsTeam" autocomplete="off" /></div>
+    </div>
+
+    <div class="form-section-title">Digital Identity</div>
+    <div class="form-grid">
+      <div class="form-field"><label>Gamer Tag</label><input type="text" id="ef-gamerTag" autocomplete="off" /></div>
+      <div class="form-field"><label>Common Alias</label><input type="text" id="ef-commonAlias" autocomplete="off" /></div>
+      <div class="form-field form-grid single">
+        <label>Custom Keywords <span class="optional-tag">comma-separated</span></label>
+        <input type="text" id="ef-customKeywords" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-ghost" id="edit-cancel-btn">Cancel</button>
+      <button class="btn btn-primary" id="edit-save-btn">
+        Save &amp; Regenerate
+      </button>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- ── Delete Confirm Modal ──────────────────────────────────────────────── -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal-box">
+    <div class="modal-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"/>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+      </svg>
+    </div>
+    <div class="modal-title">Delete Security Profile?</div>
+    <div class="modal-body">
+      This will permanently erase your personal profile and all 
+      generated attack dictionaries from this browser.<br/><br/>
+      <strong>This action cannot be undone.</strong>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="delete-cancel">Keep Profile</button>
+      <button class="btn btn-danger" id="delete-confirm">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ─────────────────────────────────────────────────────────────── -->
+<div class="toast" id="toast">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+  <span id="toast-msg">Saved</span>
+</div>
+
+<script type="module" src="profile.js"></script>
+</body>
+</html>

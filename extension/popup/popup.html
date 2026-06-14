@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VaultZero — Password Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────────────────────────────── -->
+<header class="header">
+  <div class="header-brand">
+    <div class="brand-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L3 6v6c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V6L12 2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <span class="brand-name">VaultZero</span>
+      <span class="brand-sub">Password Intelligence</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div class="privacy-badge">100% Local</div>
+    <a href="../pages/settings.html" target="_blank" class="icon-btn" title="Settings" id="settings-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </a>
+    <a href="../pages/about.html" target="_blank" class="icon-btn" title="About" id="about-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+    </a>
+  </div>
+</header>
+
+<!-- ── Tab Nav ────────────────────────────────────────────────────────────── -->
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="analyze"  id="tab-analyze">Analyze</button>
+  <button class="tab-btn"        data-tab="generate" id="tab-generate">Generate</button>
+  <button class="tab-btn"        data-tab="personal" id="tab-personal">Profile</button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 1 — ANALYZE
+═══════════════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel active" id="panel-analyze">
+
+  <!-- Password Input -->
+  <div class="input-section">
+    <div class="field-group">
+      <label class="field-label" for="popup-password">Password</label>
+      <div class="input-wrap">
+        <input type="password" id="popup-password" class="main-input"
+               placeholder="Type or paste a password..." autocomplete="off"
+               spellcheck="false" />
+        <button class="input-action" id="toggle-vis" title="Show / Hide">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+        <button class="input-action" id="copy-btn" title="Copy to clipboard">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="popup-username">Username <span class="optional">(optional — for similarity check)</span></label>
+      <input type="text" id="popup-username" class="sub-input"
+             placeholder="Enter username or email..." autocomplete="off" />
+    </div>
+    <div class="from-page-row" id="from-page-row" style="display:none">
+      <span class="from-page-text">Detected password field on this page</span>
+      <button class="from-page-btn" id="use-page-pw">Import</button>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" id="empty-state">
+    <div class="empty-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.3">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    </div>
+    <p>Enter a password to begin analysis</p>
+    <span class="empty-sub">All analysis runs locally in your browser</span>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results" style="display:none">
+
+    <!-- Score Ring + Strength Bar -->
+    <div class="score-section">
+      <div class="score-ring-wrap">
+        <svg class="score-ring" viewBox="0 0 120 120">
+          <circle class="ring-track" cx="60" cy="60" r="50"/>
+          <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="50"
+                  stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="score-center">
+          <span class="score-number" id="score-number">0</span>
+          <span class="score-label"  id="score-label">Weak</span>
+        </div>
+      </div>
+      <div class="score-meta">
+        <div class="strength-row">
+          <div class="strength-track">
+            <div class="strength-fill" id="strength-fill"></div>
+          </div>
+          <span class="strength-label" id="strength-label">Weak</span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <span class="stat-val" id="stat-entropy">—</span>
+            <span class="stat-key">Entropy</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-val" id="stat-length">—</span>
+            <span class="stat-key">Length</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-val" id="stat-charset">—</span>
+            <span class="stat-key">Charset</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-val" id="stat-variety">—</span>
+            <span class="stat-key">Variety</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Character Class Indicators -->
+    <div class="char-indicators">
+      <div class="char-chip" id="ind-lower">a–z</div>
+      <div class="char-chip" id="ind-upper">A–Z</div>
+      <div class="char-chip" id="ind-digit">0–9</div>
+      <div class="char-chip" id="ind-symbol">!@#</div>
+    </div>
+
+    <!-- Issues -->
+    <div class="panel-card" id="issues-panel" style="display:none">
+      <div class="card-title">Issues Detected</div>
+      <ul class="issues-list" id="issues-list"></ul>
+    </div>
+
+    <!-- Score Breakdown -->
+    <div class="panel-card">
+      <div class="card-title">Score Breakdown</div>
+      <div class="breakdown-list" id="breakdown-list"></div>
+    </div>
+
+    <!-- Crack Times -->
+    <div class="panel-card">
+      <div class="card-title">Crack Time Estimates</div>
+      <table class="crack-table">
+        <tbody id="crack-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Suggestions -->
+    <div class="panel-card">
+      <div class="card-title">Recommendations</div>
+      <div class="suggestions-list" id="suggestions-list"></div>
+    </div>
+
+    <!-- Personalized Risk Row (shown when profile + dict exist) -->
+    <div class="personal-risk-row" id="personal-risk-row" style="display:none">
+      <div class="personal-risk-label">Targeted Risk</div>
+      <div class="personal-risk-badge" id="personal-risk-badge">—</div>
+      <a href="../pages/profile.html" target="_blank" class="personal-risk-link" id="personal-risk-link">View →</a>
+    </div>
+
+  </div><!-- /results -->
+</div><!-- /panel-analyze -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 2 — GENERATE
+═══════════════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-generate">
+
+  <div class="gen-section">
+    <div class="gen-modes">
+      <button class="mode-btn active" data-mode="secure"     id="mode-secure">Maximum Security</button>
+      <button class="mode-btn"        data-mode="memorable"  id="mode-memorable">Memorable</button>
+      <button class="mode-btn"        data-mode="passphrase" id="mode-passphrase">Passphrase</button>
+    </div>
+
+    <!-- Generated output -->
+    <div class="gen-output-wrap">
+      <div class="gen-output" id="gen-output">
+        <span class="gen-placeholder">Click Generate to create a password</span>
+      </div>
+      <div class="gen-output-actions">
+        <button class="gen-action-btn" id="gen-copy">Copy</button>
+        <button class="gen-action-btn" id="gen-use">Use in Analyzer</button>
+      </div>
+    </div>
+
+    <!-- Options -->
+    <div class="gen-options" id="gen-options">
+      <div class="option-row">
+        <label class="option-label">Length: <span id="gen-length-display">16</span></label>
+        <input type="range" id="gen-length" min="8" max="64" value="16" class="range-input" />
+      </div>
+      <div class="checkbox-row">
+        <label class="checkbox-label"><input type="checkbox" id="gen-lower" checked /> Lowercase</label>
+        <label class="checkbox-label"><input type="checkbox" id="gen-upper" checked /> Uppercase</label>
+        <label class="checkbox-label"><input type="checkbox" id="gen-digits" checked /> Digits</label>
+        <label class="checkbox-label"><input type="checkbox" id="gen-symbols" checked /> Symbols</label>
+      </div>
+    </div>
+
+    <button class="gen-btn" id="gen-btn">Generate Password</button>
+
+    <!-- Profile-aware validation -->
+    <div class="gen-profile-check" id="gen-profile-check" style="display:none">
+      <label class="gen-check-label">
+        <input type="checkbox" id="gen-reject-personal" checked />
+        Reject passwords matching my attack profile
+      </label>
+      <div class="gen-check-badge" id="gen-personal-badge" style="display:none"></div>
+    </div>
+
+    <!-- Mini analyzer for generated password -->
+    <div class="gen-analysis" id="gen-analysis" style="display:none">
+      <div class="gen-analysis-header">Generated password quality</div>
+      <div class="gen-mini-bar-track">
+        <div class="gen-mini-bar-fill" id="gen-mini-bar"></div>
+      </div>
+      <span class="gen-mini-label" id="gen-mini-label"></span>
+    </div>
+  </div>
+</div><!-- /panel-generate -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 3 — PROFILE SUMMARY
+═══════════════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-personal">
+
+  <!-- State: No profile -->
+  <div class="pp-no-profile" id="pp-no-profile" style="display:none">
+    <div class="pp-cta-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+      </svg>
+    </div>
+    <h2 class="pp-cta-title">Set Up Your Security Profile</h2>
+    <p class="pp-cta-desc">
+      Create a personal profile so VaultZero can automatically check every password
+      against a custom targeted attack dictionary — built just for you.
+    </p>
+    <a href="../pages/profile.html#setup" target="_blank" class="pp-setup-btn" id="pp-setup-btn">
+      Begin Setup
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- State: Profile exists -->
+  <div class="pp-profile" id="pp-profile" style="display:none">
+
+    <!-- Profile summary card -->
+    <div class="pp-card">
+      <div class="pp-card-row">
+        <div class="pp-avatar" id="pp-avatar">?</div>
+        <div class="pp-info">
+          <div class="pp-name" id="pp-name">—</div>
+          <div class="pp-meta" id="pp-meta">—</div>
+        </div>
+        <a href="../pages/profile.html" target="_blank" class="pp-manage-link">Manage →</a>
+      </div>
+    </div>
+
+    <!-- Attack dict stats -->
+    <div class="pp-dict-card" id="pp-dict-card">
+      <div class="pp-dict-row">
+        <div class="pp-dict-stat">
+          <span class="pp-dict-val" id="pp-dict-size">—</span>
+          <span class="pp-dict-key">Attack Candidates</span>
+        </div>
+        <div class="pp-dict-stat">
+          <span class="pp-dict-val" id="pp-dict-date">—</span>
+          <span class="pp-dict-key">Generated</span>
+        </div>
+      </div>
+      <div class="pp-dict-no-data" id="pp-dict-no-data" style="display:none">
+        No dictionary yet. <a href="../pages/profile.html" target="_blank">Generate one →</a>
+      </div>
+    </div>
+
+    <!-- Last analysis result -->
+    <div class="pp-last-analysis" id="pp-last-analysis" style="display:none">
+      <div class="pp-last-title">Last Password Analysis</div>
+      <div class="pp-last-row">
+        <span class="pp-last-pw" id="pp-last-pw">***</span>
+        <span class="pp-last-risk" id="pp-last-risk">—</span>
+        <span class="pp-last-rank" id="pp-last-rank">—</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="pp-actions">
+      <a href="../pages/profile.html" target="_blank" class="pp-action-btn">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+        Edit Profile
+      </a>
+      <a href="../pages/dashboard.html" target="_blank" class="pp-action-btn">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        Dashboard
+      </a>
+    </div>
+
+    <div class="pp-privacy-note">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      100% Local Security Analysis &mdash; your data never leaves this browser.
+    </div>
+
+  </div><!-- /pp-profile -->
+
+</div><!-- /panel-personal -->
+
+<script type="module" src="popup.js"></script>
+</body>
+</html>

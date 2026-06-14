@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VaultZero — Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="settings.css" />
+</head>
+<body>
+
+<header class="page-header">
+  <a href="javascript:history.back()" class="back-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Back
+  </a>
+  <div class="header-brand">
+    <div class="brand-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+        <path d="M12 2L3 6v6c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V6L12 2z"/>
+        <path d="M9 12l2 2 4-4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <span class="brand-name">VaultZero</span>
+      <span class="brand-sub">Settings</span>
+    </div>
+  </div>
+  <div class="privacy-badge">100% Local</div>
+</header>
+
+<main class="settings-main">
+
+  <section class="settings-section">
+    <h2 class="section-title">Core Features</h2>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <div class="setting-name">Real-Time Widget</div>
+        <div class="setting-desc">Show strength indicator beside password fields on login pages</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="setting-widget" checked />
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      </label>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <div class="setting-name">Personalized Analysis</div>
+        <div class="setting-desc">Enable the CUPP-inspired targeted attack simulator</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="setting-personal" checked />
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      </label>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <div class="setting-name">Password Generator</div>
+        <div class="setting-desc">Enable the secure password generator tab</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="setting-generator" checked />
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      </label>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <div class="setting-name">Badge Notifications</div>
+        <div class="setting-desc">Show score badge on extension icon while typing</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="setting-badge" checked />
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      </label>
+    </div>
+  </section>
+
+  <section class="settings-section">
+    <h2 class="section-title">Widget Appearance</h2>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <div class="setting-name">Widget Position</div>
+        <div class="setting-desc">Where to show the inline strength widget</div>
+      </div>
+      <select class="setting-select" id="setting-position">
+        <option value="below">Below field</option>
+        <option value="beside">Beside field</option>
+      </select>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <div class="setting-name">Warning Threshold</div>
+        <div class="setting-desc">Badge turns red when score falls below this value</div>
+      </div>
+      <div class="slider-wrap">
+        <input type="range" min="0" max="100" value="50" id="setting-threshold" class="setting-range" />
+        <span class="slider-val" id="threshold-display">50</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="settings-section">
+    <h2 class="section-title">Privacy</h2>
+    <div class="privacy-card">
+      <div class="privacy-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <div class="privacy-text">
+        <strong>Zero data collection.</strong> VaultZero performs all analysis locally inside your browser.
+        No passwords, no personal data, and no usage metrics are ever sent to any server.
+        The extension makes no network requests of any kind.
+      </div>
+    </div>
+  </section>
+
+  <div class="save-row">
+    <span class="save-status" id="save-status"></span>
+    <button class="save-btn" id="save-btn">Save Settings</button>
+  </div>
+
+</main>
+
+<script src="settings.js"></script>
+</body>
+</html>
