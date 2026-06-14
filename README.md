@@ -1,5 +1,6 @@
-
 <div align="center">
+
+![PassGuard Banner](docs/images/banner.png)
 
 ```
 ██████╗  █████╗ ███████╗███████╗ ██████╗ ██╗   ██╗ █████╗ ██████╗ ██████╗
@@ -10,15 +11,14 @@
 ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝
 ```
 
-# 🔐 Password Strength Analyzer
+# 🔐 PassGuard — Unified Password Security Platform
 
-**A blazing-fast, fully offline, browser-based password security engine.**  
-No tracking. No APIs. No BS. Just pure, brutal password analysis.
+**A blazing-fast, fully offline, browser-based password security engine and Chrome Extension.**  
+No tracking. No APIs. No BS. Just pure, brutal password analysis combined with advanced personalized attack resistance.
 
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![Node.js](https://img.shields.io/badge/Node.js-Server-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
-[![HTML5](https://img.shields.io/badge/HTML5-Semantic-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-Vanilla-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://developer.chrome.com/)
+[![Web Workers](https://img.shields.io/badge/Web_Workers-Async-ff69b4?style=for-the-badge)](#)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen?style=for-the-badge)](.)
 [![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)](LICENSE)
 
@@ -28,343 +28,154 @@ No tracking. No APIs. No BS. Just pure, brutal password analysis.
 
 ## ⚡ What Makes This Different?
 
-> Most password checkers just count characters. This one **thinks**.
+> Most password checkers just count characters. This one **thinks like a hacker.**
 
-- 🧠 **Entropy-based scoring** — mathematically measures unpredictability
-- 🌳 **Trie-powered substring search** — finds `"dragon"` hiding inside `"myDragon99!"`
-- 🔤 **Leet-speak normalization** — catches `"p@55w0rd"` same as `"password"`
-- 👤 **Username similarity engine** — detects `"john2024"` when username is `"john"`
-- ⚡ **120ms debounce** — real-time feedback without hammering the CPU
-- 📡 **100% offline** — your passwords never leave your machine
+PassGuard goes beyond traditional entropy analysis by introducing a **Targeted Attack Simulator**. By generating a personalized dictionary based on user traits (names, pets, birth years, companies), PassGuard models how a real-world, targeted spear-phishing or doxxing attack would crack your passwords.
+
+- 🧠 **Advanced Personalized Attack Simulator** — Generates 20,000+ targeted permutations locally.
+- 🚀 **Web Worker Offloading** — Dictionary generation runs entirely in the background. Zero UI freezing.
+- 🌳 **Trie-powered substring search** — Finds `"dragon"` hiding inside `"myDr4g0n99!"`.
+- 🔤 **Leet-speak normalization** — Automatically catches typical hacker character substitutions.
+- 🧩 **Unified Architecture** — Same powerful analysis engine powers both the standalone Web App and the inline Chrome Extension.
+- 📡 **100% Offline** — Your passwords and personal profile data NEVER leave your machine.
 
 ---
 
-## 🗂️ Project Structure
+## 🗂️ Unified Platform Architecture
 
-```
+PassGuard recently migrated to a highly modular, decoupled architecture, separating the core analysis engine from the presentation layers (Web App vs. Browser Extension).
+
+```text
 📦 Password-analyzer/
-├── 📄 index.html               ← UI shell & layout
-├── 🎨 style.css                ← All styling (dark theme, animations)
-├── 🧠 app.js                   ← Main orchestrator & DOM wiring
-├── 🖥️  server.js               ← Zero-dependency Node.js static server
-├── 🚀 start.bat                ← One-click Windows launcher
-│
-├── 📁 modules/
-│   ├── 💪 strength.js          ← Entropy & character-set analysis
+├── 📁 shared/                  ← CORE ANALYSIS ENGINE (The Brains)
+│   ├── 🧠 strength.js          ← Entropy & character-set analysis
 │   ├── 🌳 wordlist.js          ← Hash-Set + Trie lookup engine
-│   ├── 🔍 patterns.js          ← Keyboard walks, sequences, repeats
-│   ├── 👤 username.js          ← Username similarity detection
-│   ├── ⏱️  bruteforce.js       ← Crack-time estimation
-│   ├── 🏆 scorer.js            ← Aggregate scoring (0–100)
-│   ├── 💡 suggestions.js       ← Actionable improvement tips
-│   └── 🎲 generator.js         ← Cryptographically random password gen
+│   ├── 🎯 personalDictionaryGenerator.js ← CUPP-inspired targeted permutation engine
+│   ├── 🏆 scorer.js            ← Aggregate scoring and risk penalties
+│   └── 💾 dictCache.js         ← O(1) in-memory lookup system
 │
-└── 📁 data/
-    └── 📋 common_passwords.js  ← Top passwords + dictionary wordlist
+├── 📁 app/                     ← WEB APPLICATION (The Playground)
+│   ├── 📄 index.html           ← Standalone UI dashboard
+│   ├── 🎨 style.css            ← Glassmorphism design system
+│   └── ⚙️ app.js               ← DOM wiring and module orchestrator
+│
+├── 📁 extension/               ← CHROME EXTENSION (The Sentinel)
+│   ├── 📄 manifest.json        ← MV3 Extension Manifest
+│   ├── 🤖 background.js        ← Service worker event orchestrator
+│   ├── 💉 content/content.js   ← Injects real-time UI widget into password fields
+│   ├── ⚙️ workers/             ← Background Web Workers for dictionary gen
+│   └── 🪟 popup/               ← Extension popup interface
+│
+├── 🖥️ server.js                ← Zero-dependency Node.js static server
+└── 🚀 start.bat                ← One-click Windows launcher
 ```
 
 ---
 
-## 🔬 Analysis Pipeline
+## 🔬 Advanced Analysis Pipeline
 
-```
-User types password
-        │
-        ▼ (debounced 120ms)
-┌───────────────────────────────────────────────────────────┐
-│                    ANALYSIS PIPELINE                       │
-│                                                           │
-│  ┌─────────────┐   ┌─────────────┐   ┌───────────────┐  │
-│  │ strength.js │   │ patterns.js │   │  wordlist.js  │  │
-│  │             │   │             │   │               │  │
-│  │ • Length    │   │ • Keyboard  │   │ • Hash-Set    │  │
-│  │ • Entropy   │   │   walks     │   │   exact match │  │
-│  │ • Char set  │   │ • Sequences │   │ • Trie        │  │
-│  │ • Variety   │   │ • Repeats   │   │   substring   │  │
-│  │             │   │ • Dates     │   │ • Leet-norm   │  │
-│  └──────┬──────┘   └──────┬──────┘   └───────┬───────┘  │
-│         │                 │                   │           │
-│         ▼                 ▼                   ▼           │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │                   username.js                       │ │
-│  │   contains? • variation? • reversed? • nearMatch?   │ │
-│  └───────────────────────┬─────────────────────────────┘ │
-│                          │                                │
-│                          ▼                                │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │                   scorer.js                         │ │
-│  │                                                     │ │
-│  │   Length   [████████░░]  25 pts                     │ │
-│  │   Variety  [██████░░░░]  20 pts                     │ │
-│  │   Entropy  [████████░░]  20 pts                     │ │
-│  │   Wordlist [██████████]  15 pts                     │ │
-│  │   Patterns [████░░░░░░]  10 pts                     │ │
-│  │   Username [██████████]  10 pts                     │ │
-│  │                          ─────                      │ │
-│  │                   TOTAL: 100 pts                    │ │
-│  └───────────────────────┬─────────────────────────────┘ │
-│                          │                                │
-│            ┌─────────────┼─────────────┐                 │
-│            ▼             ▼             ▼                  │
-│      bruteforce.js  suggestions.js   UI render            │
-│      (crack times)  (fix tips)       (DOM update)         │
-└───────────────────────────────────────────────────────────┘
+The pipeline runs in less than 50ms, evaluating your password across multiple dimensions before returning a final weighted score.
+
+```mermaid
+graph TD
+    A[Password Input] --> B(Debounce 120ms)
+    B --> C{Core Analysis Layer}
+    
+    subgraph Shared Engine
+    C --> D[Strength / Entropy]
+    C --> E[Pattern Detection]
+    C --> F[Wordlist / Trie Scan]
+    C --> G[Username Similarity]
+    end
+    
+    subgraph Personalized Attack Simulation
+    H[(Local Profile Store)] --> I(Web Worker: Generator)
+    I -->|20,000+ permutations| J[(Targeted Dictionary Cache)]
+    J --> K{O(1) Exact/Substring Lookup}
+    end
+    
+    F --> K
+    
+    K --> L[Scoring Module]
+    L -->|Penalty applied if targeted| M[Final Score 0-100]
+    
+    M --> N[Brute-Force Estimator]
+    M --> O[Suggestion Engine]
+    
+    N --> P((UI Render))
+    O --> P
 ```
 
 ---
 
-## 🏆 Scoring System
+## 🎯 Personalized Attack Resistance (CUPP Integration)
 
-```
+PassGuard implements a highly optimized, JavaScript-native version of the Common User Passwords Profiler (CUPP) logic.
+
+When a user enters a few basic personal details (Partner's name, Pet's name, Company, Year of birth), PassGuard's Web Worker silently generates a custom targeted attack dictionary.
+
+### **Generation Priorities**
+1. **Tier 1 (Highest Risk):** Exact names, Names + `123`, Names + Birth Year.
+2. **Tier 2:** Nicknames and Partner Names + Suffixes.
+3. **Tier 3:** Leet-speak mutations (`a -> 4`, `e -> 3`, `i -> 1`, `o -> 0`, `s -> 5`).
+4. **Tier 4:** Common corporate password formats (e.g., `Company2025!`).
+
+### **Dynamic Penalty Scoring**
+If your password scores an otherwise perfect `100/100` (e.g., `Sanskar2004@!`), but the Personalized Engine detects it at rank `#183` in the targeted dictionary, **the Scoring Module aggressively penalizes the score by up to 50 points**, downgrading it to a "Moderate" or "Weak" risk.
+
+---
+
+## 🏆 Scoring System & Risk Levels
+
+```text
 Score Range │ Category    │ Color   │ Meaning
 ────────────┼─────────────┼─────────┼──────────────────────────────────
-  75 – 100  │ Very Strong │ 🟢 Green │ Excellent — safe for any use
+  75 – 100  │ Very Strong │ 🟢 Green │ Excellent — safe against standard & targeted attacks
   50 –  74  │ Strong      │ 🟡 Lime  │ Good — minor improvements possible
-  25 –  49  │ Moderate    │ 🟠 Amber │ Risky — needs strengthening
+  25 –  49  │ Moderate    │ 🟠 Amber │ Risky — vulnerable to targeted guessing
    0 –  24  │ Weak        │ 🔴 Red   │ Dangerous — change immediately
 ```
 
-### Score Breakdown (Max 100 Points)
+---
 
-| Category | Module | Max Points | What It Measures |
-|----------|--------|:-----------:|------------------|
-| 📏 Length | `strength.js` | **25** | Rewards every extra character |
-| 🎭 Variety | `strength.js` | **20** | Lowercase + Uppercase + Digits + Symbols |
-| 🔀 Entropy | `strength.js` | **20** | `log2(charsetSize ^ length)` |
-| 📖 Wordlist | `wordlist.js` | **15** | Not in top passwords / dictionary |
-| 🔣 Patterns | `patterns.js` | **10** | No keyboard walks, sequences, repeats |
-| 👤 Username | `username.js` | **10** | Not derived from username |
+## 🚀 How to Run — Standalone Web App
+
+**Method 1: Windows One-Click (Recommended)**
+Simply double-click the `start.bat` file. It will automatically boot the Node.js server and open your default browser.
+
+**Method 2: Command Line**
+1. Ensure Node.js is installed.
+2. Clone the repo or download the ZIP.
+3. Run `node server.js`
+4. Open your browser to `http://localhost:5500`
 
 ---
 
-## 🌳 The Trie Engine
+## 🧩 How to Install — Chrome Extension
 
-The wordlist module uses two data structures working in tandem:
+The PassGuard extension brings the exact same offline power directly to your browsing experience, injecting a real-time analysis widget under any password field you type into.
 
-```
-Hash-Set Lookup (O(1)):
-  "password" ──▶ TOP_PASSWORDS.has("password") ──▶ ❌ MATCH
+1. Open Google Chrome and navigate to `chrome://extensions/`
+2. Enable **"Developer mode"** in the top right corner.
+3. Click **"Load unpacked"** in the top left.
+4. Select the `Password-analyzer/` (Root) folder.
+5. Pin the extension to your toolbar!
 
-Trie Substring Scan (O(n×k)):
-  Input: "myDragon99!"
-         │
-         ▼ scan all start positions
-  start=0  → m → my → ... no match
-  start=2  → D → Dr → Dra → Drag → Drago → Dragon ✅ FOUND!
-         │
-         ▼ also runs on leet-normalized version
-  "myDr4g0n99!" → normalize → "myDragon99!" → same match!
-```
-
-**Words shorter than 4 characters are filtered out** to reduce noise.
+> **Note:** The extension is entirely offline and requests NO external network permissions. Your profile and password telemetry stay isolated in your local browser sandbox.
 
 ---
 
-## ⚡ Crack Time Scenarios
+## 🔒 Privacy Guarantee
 
-| Scenario | Speed | Example |
-|----------|-------|---------|
-| 🐌 Online (throttled) | 100 /sec | Login form with rate limiting |
-| 🚶 Online (unthrottled) | 10,000 /sec | Unprotected login endpoint |
-| 🏃 Offline (slow hash) | 10,000,000 /sec | bcrypt/scrypt cracking |
-| 🚀 Offline (fast hash) | 10,000,000,000 /sec | MD5/SHA1 GPU cracking |
-| 💻 Offline (GPU cluster) | 100,000,000,000 /sec | Nation-state level attack |
-
----
-
-## 🚀 How to Run — Step by Step
-
-### ✅ Prerequisites
-
-Before you begin, make sure you have the following installed:
-
-**1. Check if Node.js is installed:**
-```bash
-node --version
-```
-You should see something like `v18.0.0` or higher.  
-If not, download Node.js from 👉 [https://nodejs.org](https://nodejs.org) (choose the **LTS** version).
-
-**2. Check if Git is installed (optional, for cloning):**
-```bash
-git --version
-```
-
----
-
-### 📥 Method 1 — Clone from GitHub
-
-**Step 1:** Open a terminal (PowerShell, CMD, or Git Bash)
-
-**Step 2:** Clone the repository
-```bash
-git clone https://github.com/Sanskar-bot/Password-analyzer.git
-```
-
-**Step 3:** Navigate into the project folder
-```bash
-cd Password-analyzer
-```
-
-**Step 4:** Start the server
-```bash
-node server.js
-```
-
-**Step 5:** Open your browser and visit:
-```
-http://localhost:5500
-```
-
-That's it. No `npm install`. No build steps. No config files. 🎉
-
----
-
-### 📁 Method 2 — Download ZIP
-
-**Step 1:** Go to [https://github.com/Sanskar-bot/Password-analyzer](https://github.com/Sanskar-bot/Password-analyzer)
-
-**Step 2:** Click the green **`Code`** button → **`Download ZIP`**
-
-**Step 3:** Extract the ZIP to a folder of your choice
-
-**Step 4:** Open a terminal in that folder  
-*(Right-click inside the folder → "Open in Terminal")*
-
-**Step 5:** Run:
-```bash
-node server.js
-```
-
-**Step 6:** Open `http://localhost:5500` in your browser ✅
-
----
-
-### 🖱️ Method 3 — Windows One-Click Launch (Easiest!)
-
-If you're on Windows, just double-click the included batch file:
-
-```
-📄 start.bat  ←── double-click this!
-```
-
-This will:
-1. Automatically find Node.js
-2. Start the server
-3. Open your default browser to `http://localhost:5500`
-
----
-
-### 🔧 Custom Port
-
-If port `5500` is already in use, you can specify a different one:
-
-```bash
-node server.js 8080
-```
-Then visit `http://localhost:8080`
-
----
-
-### 🛑 Stopping the Server
-
-In the terminal where the server is running, press:
-```
-Ctrl + C
-```
-
----
-
-## 🧪 Running the Built-in Test Suite
-
-The analyzer includes a built-in test suite you can run directly in the browser console.
-
-**Step 1:** Open the app in the browser (`http://localhost:5500`)
-
-**Step 2:** Open DevTools — press `F12` or `Ctrl+Shift+I`
-
-**Step 3:** Go to the **Console** tab
-
-**Step 4:** Type and press Enter:
-```javascript
-runTests()
-```
-
-**Expected output:**
-```
-Password Analyzer — Test Suite
-  ✅ "password"             → 12/100  Weak        (expected Weak)
-  ✅ "P@ssw0rd"            → 23/100  Weak        (expected Weak)
-  ✅ "qwerty123"            → 18/100  Weak        (expected Weak)
-  ✅ "correcthorsebattery"  → 68/100  Strong      (expected Strong)
-  ✅ "X9#mK2!pL7@qZ"       → 91/100  Very Strong (expected Very Strong)
-  ✅ "john123"              → 14/100  Weak        (expected Weak)
-  ✅ "Tr0ub4dour&3"         → 76/100  Strong      (expected Strong)
-```
-
----
-
-## 🎲 Password Generator
-
-The built-in generator uses the **Web Crypto API** (`crypto.getRandomValues`) — the same source of randomness used by your browser for TLS. It is cryptographically secure.
-
-### Generator Options:
-| Option | Description |
-|--------|-------------|
-| **Length slider** | 8 – 64 characters |
-| **Lowercase** | a–z |
-| **Uppercase** | A–Z |
-| **Digits** | 0–9 |
-| **Symbols** | `!@#$%^&*()_+-=[]{}` |
-
-Generated passwords can be:
-- 📋 **Copied** to clipboard with one click
-- ➡️ **Sent to the analyzer** to immediately evaluate strength
-
----
-
-## 🧩 Module Reference
-
-| Module | Exported Function | Description |
-|--------|------------------|-------------|
-| `strength.js` | `analyseStrength(password)` | Entropy, length, variety scoring |
-| `patterns.js` | `detectPatterns(password)` | Keyboard walks, sequences, dates |
-| `patterns.js` | `normalizeLeet(text)` | Converts leet-speak to plain text |
-| `wordlist.js` | `checkWordlist(password)` | Hash-Set + Trie dictionary check |
-| `username.js` | `checkUsername(password, user)` | Username similarity detection |
-| `bruteforce.js` | `estimateCrackTimes(charset, len)` | Multi-scenario crack time estimates |
-| `scorer.js` | `computeScore(str, wl, pat, uc)` | Aggregate 0–100 score |
-| `suggestions.js` | `generateSuggestions(...)` | Prioritized improvement tips |
-| `generator.js` | `generatePassword(options)` | Cryptographically secure generator |
-
----
-
-## 🌐 Browser Compatibility
-
-| Browser | Support |
-|---------|---------|
-| Chrome 80+ | ✅ Full |
-| Firefox 75+ | ✅ Full |
-| Edge 80+ | ✅ Full |
-| Safari 14+ | ✅ Full |
-| Opera 67+ | ✅ Full |
-
-> **Note:** The app uses ES Modules (`type="module"`), which require a server to work — this is why you can't just open `index.html` directly by double-clicking it. The included `server.js` handles this.
-
----
-
-## 🔒 Privacy
-
-```
+```text
 ┌─────────────────────────────────────────────────┐
 │                                                 │
 │   Your password NEVER leaves your computer.    │
 │                                                 │
+│   ✓ No backend servers                         │
 │   ✓ No network requests                        │
-│   ✓ No analytics                               │
-│   ✓ No localStorage writes                    │
-│   ✓ No cookies                                │
-│   ✓ Fully offline capable                     │
+│   ✓ No telemetry or tracking                   │
+│   ✓ Fully offline capable                      │
 │                                                 │
 └─────────────────────────────────────────────────┘
 ```
@@ -374,8 +185,6 @@ Generated passwords can be:
 ## 📄 License
 
 MIT License — do whatever you want with it. Just don't use it to store weak passwords. 😄
-
----
 
 <div align="center">
 
