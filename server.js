@@ -27,15 +27,21 @@ const MIME = {
   ".png":  "image/png",
   ".jpg":  "image/jpeg",
   ".svg":  "image/svg+xml",
+  ".zip":  "application/zip",
   ".woff2":"font/woff2",
   ".woff": "font/woff",
   ".ttf":  "font/ttf",
 };
 
 const server = http.createServer((req, res) => {
-  // Parse the request URL, defaulting to app/index.html
+  // Parse the request URL
   let pathname = url.parse(req.url).pathname;
-  if (pathname === "/") pathname = "/app/index.html";
+
+  // Redirect root to /app/index.html so relative paths work correctly
+  if (pathname === "/") {
+    res.writeHead(302, { "Location": "/app/index.html" });
+    return res.end();
+  }
 
   // Resolve to an absolute path and make sure it stays within ROOT
   const absPath = path.normalize(path.join(ROOT, pathname));
