@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+?<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Manage your security profile â€” store personal information used as memory anchors for the Password Generator and Personalized Attack Lab." />
-  <title>Security Profile â€” PassGuard</title>
+  <meta name="description" content="Manage your security profile &mdash; store personal information used as memory anchors for the Password Generator and Personalized Attack Lab." />
+  <title>Security Profile &mdash; PassGuard</title>
   <link rel="icon" href="/app/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/app/passguard_icon.png" />
   <meta property="og:image" content="/app/passguard_logo.png" />
@@ -61,7 +61,7 @@
     <div class="pg-page-header__title">Security Profile</div>
     <div class="pg-page-header__desc">
       Your personal memory anchors. Used by the Generator and Attack Lab to produce personalized results.
-      Stored entirely in your browser â€” never transmitted anywhere.
+      Stored entirely in your browser &mdash; never transmitted anywhere.
     </div>
     <div class="pg-page-header__meta">
       <span class="pg-badge pg-badge--success">Local Storage Only</span>
@@ -78,7 +78,7 @@
         <div class="pg-bar-track pg-bar-track--lg">
           <div class="pg-bar-fill" id="pf-health-fill" style="width:0%;background:var(--warning)"></div>
         </div>
-        <div class="pf-health-label" id="pf-health-label">No fields filled â€” enter your profile below</div>
+        <div class="pf-health-label" id="pf-health-label">No fields filled &mdash; enter your profile below</div>
       </div>
     </div>
     <div class="pf-stats">
@@ -87,7 +87,7 @@
         <div class="pg-stat__label">Fields Filled</div>
       </div>
       <div class="pg-stat">
-        <div class="pg-stat__value" id="pf-stat-dict-est">â€”</div>
+        <div class="pg-stat__value" id="pf-stat-dict-est">&mdash;</div>
         <div class="pg-stat__label">Est. Dict Size</div>
       </div>
       <div class="pg-stat">
@@ -101,7 +101,7 @@
   <div class="pg-card pg-mb-6">
     <div class="pg-section-title">Profile Information</div>
     <p class="pg-body-sm pg-mb-5">
-      These are memory anchors â€” information attackers commonly use when targeting someone they know.
+      These are memory anchors &mdash; information attackers commonly use when targeting someone they know.
       The more fields you fill, the more accurate your personalized analysis will be.
     </p>
 
@@ -169,7 +169,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
         </div>
         <div>
-          <div class="pf-use-title">Password Generator â€” Personalized Mode</div>
+          <div class="pf-use-title">Password Generator &mdash; Personalized Mode</div>
           <div class="pf-use-desc">Creates passwords that avoid your personal information as obvious patterns, while optionally using your data as subtle structural seeds.</div>
         </div>
       </div>
@@ -187,7 +187,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </div>
         <div>
-          <div class="pf-use-title">Password Analyzer â€” Personalized Score</div>
+          <div class="pf-use-title">Password Analyzer &mdash; Personalized Score</div>
           <div class="pf-use-desc">Adds a personalized resistance score to the standard strength analysis when a profile is saved.</div>
         </div>
       </div>
@@ -230,10 +230,10 @@
     $('pf-health-pct').textContent = pct + '%';
     $('pf-health-fill').style.width = pct + '%';
     $('pf-health-fill').style.background = pct >= 70 ? 'var(--success)' : pct >= 40 ? 'var(--warning)' : 'var(--danger)';
-    $('pf-health-label').textContent = pct === 0 ? 'No fields filled â€” enter your profile below' :
-      pct < 40 ? 'Minimal profile â€” more fields = better analysis' :
-      pct < 70 ? 'Good profile â€” covers common attack vectors' :
-      'Comprehensive profile â€” full personalized analysis enabled';
+    $('pf-health-label').textContent = pct === 0 ? 'No fields filled &mdash; enter your profile below' :
+      pct < 40 ? 'Minimal profile &mdash; more fields = better analysis' :
+      pct < 70 ? 'Good profile &mdash; covers common attack vectors' :
+      'Comprehensive profile &mdash; full personalized analysis enabled';
     $('pf-stat-fields').textContent = `${filled}/${FIELDS.length}`;
     const dictEst = filled === 0 ? 0 : filled <= 2 ? '~500' : filled <= 5 ? '~5,000' : '~20,000+';
     $('pf-stat-dict-est').textContent = dictEst;

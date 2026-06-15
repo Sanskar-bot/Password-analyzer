@@ -1,18 +1,18 @@
 /**
  * smartGeneratorUI.js
- * ─────────────────────────────────────────────────────────────────────────────
+ * -----------------------------------------------------------------------------
  * UI controller for the Smart Password Generator section.
  *
  * Modes
- * ─────
- *  smartMemorable — Title-cased words + number
- *  passphrase     — lowercase words joined by separator
- *  maxSecurity    — maximum-entropy character pool
- *  personalSecure — [NEW] themed anchors from user profile
+ * -----
+ *  smartMemorable � Title-cased words + number
+ *  passphrase     � lowercase words joined by separator
+ *  maxSecurity    � maximum-entropy character pool
+ *  personalSecure � [NEW] themed anchors from user profile
  *
  * All business logic lives in shared/smartGenerator.js and
  * shared/personalGenerator.js. This file contains UI wiring only.
- * ─────────────────────────────────────────────────────────────────────────────
+ * -----------------------------------------------------------------------------
  */
 
 import { generateSmartPassword, scoreGeneratedPassword } from '../shared/smartGenerator.js';
@@ -28,7 +28,7 @@ import {
 } from '../shared/personalGenerator.js';
 import { runPersonalizedAnalysis } from '../shared/personalDictionary.js';
 
-// ── DOM refs ───────────────────────────────────────────────────────────────
+// -- DOM refs ---------------------------------------------------------------
 const pwInput       = document.getElementById('sg-password');
 const generateBtn   = document.getElementById('sg-generate-btn');
 const regenBtn      = document.getElementById('sg-regen-btn');
@@ -80,7 +80,7 @@ const pfSaveBtn        = document.getElementById('sgp-save-btn');
 const pfClearBtn       = document.getElementById('sgp-clear-btn');
 const warningBadge     = document.getElementById('sg-warning-badge');
 
-// ── State ──────────────────────────────────────────────────────────────────
+// -- State ------------------------------------------------------------------
 let currentMode    = 'smartMemorable';
 let separator      = '';
 let liveDebounce   = null;
@@ -108,7 +108,7 @@ const MODE_META = {
   },
 };
 
-// ── Profile helpers ────────────────────────────────────────────────────────
+// -- Profile helpers --------------------------------------------------------
 
 function readFormProfile() {
   return {
@@ -144,13 +144,13 @@ function updateProfilePill(profile) {
     profilePill.classList.add('active');
     profilePill.hidden = false;
   } else {
-    profilePill.textContent = 'No profile — using general mode';
+    profilePill.textContent = 'No profile � using general mode';
     profilePill.classList.remove('active');
     profilePill.hidden = false;
   }
 }
 
-// ── Options builder ────────────────────────────────────────────────────────
+// -- Options builder --------------------------------------------------------
 
 function getOpts() {
   return {
@@ -164,7 +164,7 @@ function getOpts() {
   };
 }
 
-// ── Action buttons ─────────────────────────────────────────────────────────
+// -- Action buttons ---------------------------------------------------------
 
 function showActionButtons() {
   regenBtn.style.display   = '';
@@ -172,7 +172,7 @@ function showActionButtons() {
   analyseBtn.style.display = '';
 }
 
-// ── Mode UI toggle ─────────────────────────────────────────────────────────
+// -- Mode UI toggle ---------------------------------------------------------
 
 function updateModeUI(mode) {
   const meta = MODE_META[mode];
@@ -189,7 +189,7 @@ function updateModeUI(mode) {
   if (warningBadge) warningBadge.hidden = true;
 }
 
-// ── Score ring renderer ────────────────────────────────────────────────────
+// -- Score ring renderer ----------------------------------------------------
 
 function renderScore(res) {
   if (!res) return;
@@ -225,7 +225,7 @@ function renderScore(res) {
   barTrack.style.display   = '';
 }
 
-// ── Explainability panel ───────────────────────────────────────────────────
+// -- Explainability panel ---------------------------------------------------
 
 function renderExplanation(scoreRes, personalRes, usedCategories, directAnchors) {
   if (!explainPanel) return;
@@ -240,7 +240,7 @@ function renderExplanation(scoreRes, personalRes, usedCategories, directAnchors)
   explainPanel.hidden = false;
 }
 
-// ── Warning badge (live edit check) ───────────────────────────────────────
+// -- Warning badge (live edit check) ---------------------------------------
 
 function checkWarning(pw) {
   if (!warningBadge) return;
@@ -256,7 +256,7 @@ function checkWarning(pw) {
   }
 }
 
-// ── Core: generate ─────────────────────────────────────────────────────────
+// -- Core: generate ---------------------------------------------------------
 
 async function generate() {
   generateBtn.textContent = 'Generating\u2026';
@@ -290,7 +290,7 @@ async function generate() {
           }
         } else {
           pwInput.value       = '';
-          pwInput.placeholder = 'No profile data — add at least one field';
+          pwInput.placeholder = 'No profile data � add at least one field';
         }
 
       } else {
@@ -304,7 +304,7 @@ async function generate() {
     } catch (e) {
       console.error('[SmartGenerator]', e);
       pwInput.value       = '';
-      pwInput.placeholder = 'Generation failed — check console';
+      pwInput.placeholder = 'Generation failed � check console';
     } finally {
       generateBtn.disabled    = false;
       generateBtn.textContent = 'Generate';
@@ -312,7 +312,7 @@ async function generate() {
   }, 0);
 }
 
-// ── Core: live analyse ─────────────────────────────────────────────────────
+// -- Core: live analyse -----------------------------------------------------
 
 function liveAnalyse() {
   const pw = pwInput.value;
@@ -328,7 +328,7 @@ function liveAnalyse() {
   checkWarning(pw);
 }
 
-// ── Event wiring ───────────────────────────────────────────────────────────
+// -- Event wiring -----------------------------------------------------------
 
 // Mode tabs
 tabs.forEach(tab => {
@@ -420,7 +420,7 @@ if (pfClearBtn) {
   });
 }
 
-// ── Init ───────────────────────────────────────────────────────────────────
+// -- Init -------------------------------------------------------------------
 
 // Load saved profile and pre-fill form
 currentProfile = loadSavedProfile();

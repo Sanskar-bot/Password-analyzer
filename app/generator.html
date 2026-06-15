@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+?<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Generate strong, memorable passwords with four modes: Memorable, Passphrase, Max Security, and Personalized. Live strength analysis. Fully offline." />
-  <title>Password Generator â€” PassGuard</title>
+  <title>Password Generator &mdash; PassGuard</title>
   <link rel="icon" href="/app/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/app/passguard_icon.png" />
   <meta property="og:image" content="/app/passguard_logo.png" />
@@ -12,10 +12,10 @@
   <link rel="stylesheet" href="platform.css" />
   <link rel="stylesheet" href="style.css?v=5" />
   <style>
-    /* â”€â”€ Generator page overrides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    /* ── Generator page overrides ──────────────────────────────
        Preserves all IDs / class hooks used by smartGeneratorUI.js
        while applying the platform.css design tokens.
-    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    ────────────────────────────────────────────────────────── */
 
     .page-wrapper { background: var(--bg-base); color: var(--text-primary); padding-top: var(--nav-h); }
     .site-header  { display: none; }
@@ -27,7 +27,7 @@
       padding-inline: var(--sp-6);
     }
 
-    /* â”€â”€ Mode tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── Mode tabs ──────────────────────────────────────────── */
     .sg-section { max-width: var(--content-max); margin-inline: auto; padding-inline: var(--sp-6); padding-top: 0; }
 
     .sg-header-row {
@@ -99,7 +99,7 @@
       border-left: 2px solid var(--brand);
     }
 
-    /* â”€â”€ Main card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── Main card ──────────────────────────────────────────── */
     .sg-main-card {
       background: var(--bg-surface);
       border: 1px solid var(--border);
@@ -146,7 +146,7 @@
       gap: var(--sp-4);
       min-width: 200px;
     }
-    .sg-score-ring-wrap { position: relative; flex-shrink: 0; }
+    .sg-score-ring-wrap { position: relative; flex-shrink: 0; padding: 4px; }
     .sg-ring-bg   { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 8; }
     .sg-ring-fill {
       fill: none; stroke-width: 8; stroke-linecap: round;
@@ -327,13 +327,13 @@
 
 <div class="page-wrapper">
 
-  <!-- â”€â”€ Page header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <!-- ── Page header ─────────────────────────────────────────── -->
   <div class="gn-wrap" style="padding-top:var(--sp-8)">
     <div class="pg-page-header">
       <div class="pg-page-header__eyebrow">Tool</div>
       <div class="pg-page-header__title">Password Generator</div>
       <div class="pg-page-header__desc">
-        Four generation modes â€” Memorable, Passphrase, Max Security, and Personalized.
+        Four generation modes &mdash; Memorable, Passphrase, Max Security, and Personalized.
         Edit generated passwords freely with live strength analysis.
       </div>
       <div class="pg-page-header__meta">
@@ -344,13 +344,13 @@
     </div>
   </div>
 
-  <!-- â”€â”€ Smart Password Generator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <!-- ── Smart Password Generator ─────────────────────────────── -->
   <section class="sg-section" id="smart-generator" aria-label="Smart password generator">
 
     <div class="sg-header-row">
       <div>
         <h1 class="section-heading">Smart Password Generator</h1>
-        <p class="sg-subtitle">Memorable, secure passwords â€” edit freely and see live analysis</p>
+        <p class="sg-subtitle">Memorable, secure passwords &mdash; edit freely and see live analysis</p>
       </div>
       <span class="sg-privacy-badge">Local Only</span>
     </div>
@@ -380,20 +380,21 @@
             type="text"
             id="sg-password"
             class="sg-pw-input"
-            placeholder="Click Generate to create a passwordâ€¦"
+            placeholder="Click Generate to create a password&hellip;"
             autocomplete="off"
             autocorrect="off"
             autocapitalize="off"
             spellcheck="false"
-            aria-label="Generated password â€” editable"
+            aria-label="Generated password &mdash; editable"
           />
-          <div class="sg-pw-hint">You can edit this password directly â€” analysis updates live.</div>
+          <div class="sg-pw-hint">You can edit this password directly &mdash; analysis updates live.</div>
         </div>
 
         <!-- Mini score card -->
         <div class="sg-score-card" id="sg-score-card" style="display:none">
           <div class="sg-score-ring-wrap">
-            <svg width="64" height="64" viewBox="0 0 120 120" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 120 120" aria-hidden="true"
+                 style="overflow:visible;display:block">
               <circle class="sg-ring-bg"   cx="60" cy="60" r="50"/>
               <circle class="sg-ring-fill" id="sg-ring-fill" cx="60" cy="60" r="50"/>
             </svg>
@@ -403,9 +404,9 @@
             </div>
           </div>
           <div class="sg-score-meta">
-            <div class="sg-score-cat" id="sg-score-cat">â€”</div>
+            <div class="sg-score-cat" id="sg-score-cat">&mdash;</div>
             <div class="sg-score-stats">
-              <span id="sg-entropy">â€”</span> bits &middot; <span id="sg-length">0</span> chars
+              <span id="sg-entropy">&mdash;</span> bits &middot; <span id="sg-length">0</span> chars
             </div>
             <div class="sg-crack-line" id="sg-crack-line"></div>
           </div>
@@ -436,14 +437,14 @@
         <div class="sg-explain-grid">
           <div class="sg-explain-row">
             <span class="sg-explain-label">Strength Score</span>
-            <span class="sg-explain-value" id="sg-explain-strength">â€”</span>
+            <span class="sg-explain-value" id="sg-explain-strength">&mdash;</span>
           </div>
           <div class="sg-explain-row">
             <span class="sg-explain-label">Personal Attack Score</span>
-            <span class="sg-explain-value" id="sg-explain-personal">â€”</span>
+            <span class="sg-explain-value" id="sg-explain-personal">&mdash;</span>
           </div>
         </div>
-        <div class="sg-explain-reason" id="sg-explain-reason">â€”</div>
+        <div class="sg-explain-reason" id="sg-explain-reason">&mdash;</div>
       </div>
 
     </div><!-- /sg-main-card -->
@@ -452,7 +453,7 @@
     <div id="sg-personal-form" class="sg-personal-form" hidden>
       <div class="sg-pf-header">
         <span class="sg-pf-title">Your Profile</span>
-        <span class="sg-pf-hint">Stored locally. Used as memory anchors â€” never embedded directly.</span>
+        <span class="sg-pf-hint">Stored locally. Used as memory anchors &mdash; never embedded directly.</span>
       </div>
       <div class="sg-pf-grid">
         <div class="sg-pf-field">
@@ -648,7 +649,7 @@
   </section>
 
   <footer class="site-footer" aria-label="Page footer">
-    <p>PassGuard runs entirely in your browser â€” your password is <strong>never sent anywhere</strong>.</p>
+    <p>PassGuard runs entirely in your browser &mdash; your password is <strong>never sent anywhere</strong>.</p>
   </footer>
 
 </div>

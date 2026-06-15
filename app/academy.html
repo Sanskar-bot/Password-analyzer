@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+?<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Password Academy â€” learn about password security, entropy, attack types, passphrases, MFA, and best practices. Interactive simulations and clear explanations." />
-  <title>Password Academy â€” PassGuard</title>
+  <meta name="description" content="Password Academy &mdash; learn about password security, entropy, attack types, passphrases, MFA, and best practices. Interactive simulations and clear explanations." />
+  <title>Password Academy &mdash; PassGuard</title>
   <link rel="icon" href="/app/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/app/passguard_icon.png" />
   <meta property="og:image" content="/app/passguard_logo.png" />
@@ -140,15 +140,15 @@
 
   <div class="ac-content">
 
-    <!-- â”€â”€ FUNDAMENTALS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── FUNDAMENTALS ──────────────────────────────────────── -->
     <div class="pg-tab-panel active" id="tab-fundamentals">
       <div class="ac-prose">
         <h3>What is a password?</h3>
-        <p>A password is a secret string of characters used to verify that you are who you claim to be. When you create an account, the service stores a <strong>hash</strong> of your password â€” not the password itself. When you log in, the hash of what you typed is compared to the stored hash.</p>
+        <p>A password is a secret string of characters used to verify that you are who you claim to be. When you create an account, the service stores a <strong>hash</strong> of your password &mdash; not the password itself. When you log in, the hash of what you typed is compared to the stored hash.</p>
 
         <h3>Authentication vs. Authorization</h3>
-        <p><strong>Authentication</strong> answers: "Are you who you say you are?" â€” passwords, biometrics, and security keys all solve this.<br/>
-        <strong>Authorization</strong> answers: "Are you allowed to do this?" â€” roles, permissions, and access controls solve this.</p>
+        <p><strong>Authentication</strong> answers: "Are you who you say you are?" &mdash; passwords, biometrics, and security keys all solve this.<br/>
+        <strong>Authorization</strong> answers: "Are you allowed to do this?" &mdash; roles, permissions, and access controls solve this.</p>
 
         <h3>The most common password mistakes</h3>
       </div>
@@ -157,7 +157,7 @@
           <div class="ac-check-num" style="background:var(--danger-subtle);border-color:var(--danger-border);color:var(--danger)">1</div>
           <div>
             <div class="ac-check-title">Using personal information</div>
-            <div class="ac-check-desc"><code>Sanskar2004</code>, <code>Bruno123</code>, <code>Mom1990</code> â€” attackers who know you try these first. PassGuard's Attack Lab simulates exactly this.</div>
+            <div class="ac-check-desc"><code>Sanskar2004</code>, <code>Bruno123</code>, <code>Mom1990</code> &mdash; attackers who know you try these first. PassGuard's Attack Lab simulates exactly this.</div>
           </div>
         </div>
         <div class="ac-check-item">
@@ -184,19 +184,19 @@
       </div>
     </div>
 
-    <!-- â”€â”€ STRENGTH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── STRENGTH ─────────────────────────────────────────── -->
     <div class="pg-tab-panel" id="tab-strength">
       <div class="ac-prose">
         <h3>What makes a password strong?</h3>
-        <p>Strength is determined by how hard it is to guess â€” through brute force or pattern-based attacks. The key factors are length, entropy, character diversity, and resistance to dictionary/pattern matching.</p>
+        <p>Strength is determined by how hard it is to guess &mdash; through brute force or pattern-based attacks. The key factors are length, entropy, character diversity, and resistance to dictionary/pattern matching.</p>
 
         <h3>Entropy: the math of unpredictability</h3>
         <p>Entropy (measured in bits) quantifies how hard a password is to guess. It depends on <strong>character set size</strong> and <strong>length</strong>:</p>
         <div class="ac-example">
-          <code>Entropy = length Ã— logâ‚‚(charset_size)</code><br/>
-          An 8-char password using lowercase only: 8 Ã— logâ‚‚(26) = 8 Ã— 4.7 = <strong>37.6 bits</strong><br/>
-          An 8-char password using all classes: 8 Ã— logâ‚‚(95) = 8 Ã— 6.57 = <strong>52.5 bits</strong><br/>
-          A 16-char lowercase password: 16 Ã— 4.7 = <strong>75 bits</strong> â€” stronger than the 8-char complex one.
+          <code>Entropy = length × log₂(charset_size)</code><br/>
+          An 8-char password using lowercase only: 8 × log₂(26) = 8 × 4.7 = <strong>37.6 bits</strong><br/>
+          An 8-char password using all classes: 8 × log₂(95) = 8 × 6.57 = <strong>52.5 bits</strong><br/>
+          A 16-char lowercase password: 16 × 4.7 = <strong>75 bits</strong> &mdash; stronger than the 8-char complex one.
         </div>
       </div>
 
@@ -230,7 +230,7 @@
       </div>
     </div>
 
-    <!-- â”€â”€ ATTACK TYPES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── ATTACK TYPES ─────────────────────────────────────── -->
     <div class="pg-tab-panel" id="tab-attacks">
       <div class="ac-prose">
         <p>Understanding how attacks work is the most effective way to build defenses. These are the main categories of password attacks.</p>
@@ -255,7 +255,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
           <div class="ac-attack-title">Credential Stuffing</div>
-          <div class="ac-attack-desc">Takes username/password pairs from one breach and tries them on other sites. Exploits password reuse â€” one breach becomes many.</div>
+          <div class="ac-attack-desc">Takes username/password pairs from one breach and tries them on other sites. Exploits password reuse &mdash; one breach becomes many.</div>
         </div>
         <div class="ac-attack-card">
           <div class="ac-attack-icon" style="background:var(--info-subtle);border:1px solid var(--info-border);color:var(--info)">
@@ -276,16 +276,16 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
           </div>
           <div class="ac-attack-title">Personalized Attack</div>
-          <div class="ac-attack-desc">Uses information specific to you â€” names, dates, pets â€” to generate a targeted dictionary. PassGuard simulates this in the Attack Lab.</div>
+          <div class="ac-attack-desc">Uses information specific to you &mdash; names, dates, pets &mdash; to generate a targeted dictionary. PassGuard simulates this in the Attack Lab.</div>
         </div>
       </div>
     </div>
 
-    <!-- â”€â”€ PERSONALIZED ATTACKS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── PERSONALIZED ATTACKS ─────────────────────────────── -->
     <div class="pg-tab-panel" id="tab-attacks-personalized">
       <div class="ac-prose">
         <h3>What makes personalized attacks different</h3>
-        <p>Standard dictionary attacks use wordlists of millions of common passwords. They find <code>password123</code> and <code>qwerty</code>. But they miss passwords like <code>Sanskar2004!</code> â€” which passes every basic strength check.</p>
+        <p>Standard dictionary attacks use wordlists of millions of common passwords. They find <code>password123</code> and <code>qwerty</code>. But they miss passwords like <code>Sanskar2004!</code> &mdash; which passes every basic strength check.</p>
         <p>A targeted attacker who knows you will construct a custom dictionary from:</p>
       </div>
 
@@ -304,7 +304,7 @@
       <div class="ac-prose">
         <h3>How PassGuard's Attack Lab works</h3>
         <p>The Attack Lab generates thousands of variations from your profile using the same techniques attackers use: name combinations, leet substitutions, date appending, separator injection, capitalization patterns, and keyword mixing.</p>
-        <p>It then checks whether your password appears in this dictionary and, if so, at what rank â€” telling you exactly how quickly a targeted attacker would find it.</p>
+        <p>It then checks whether your password appears in this dictionary and, if so, at what rank &mdash; telling you exactly how quickly a targeted attacker would find it.</p>
       </div>
 
       <div style="margin-top:var(--sp-4)">
@@ -312,11 +312,11 @@
       </div>
     </div>
 
-    <!-- â”€â”€ PASSPHRASES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── PASSPHRASES ──────────────────────────────────────── -->
     <div class="pg-tab-panel" id="tab-passphrases">
       <div class="ac-prose">
         <h3>Why passphrases beat complex passwords</h3>
-        <p>The common belief that complexity beats length is mathematically wrong. A long passphrase has far more entropy than a short complex password â€” and is far more memorable.</p>
+        <p>The common belief that complexity beats length is mathematically wrong. A long passphrase has far more entropy than a short complex password &mdash; and is far more memorable.</p>
       </div>
 
       <div class="ac-pw-comparison">
@@ -349,7 +349,7 @@
       <a href="/app/generator.html" class="pg-btn pg-btn--secondary" style="margin-top:var(--sp-4)">Try Passphrase Mode in the Generator</a>
     </div>
 
-    <!-- â”€â”€ PASSWORD MANAGERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── PASSWORD MANAGERS ────────────────────────────────── -->
     <div class="pg-tab-panel" id="tab-managers">
       <div class="ac-prose">
         <h3>Why use a password manager?</h3>
@@ -368,15 +368,15 @@
       </div>
     </div>
 
-    <!-- â”€â”€ MFA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── MFA ──────────────────────────────────────────────── -->
     <div class="pg-tab-panel" id="tab-mfa">
       <div class="ac-prose">
         <h3>What is multi-factor authentication?</h3>
         <p>MFA requires two or more of the following to authenticate:</p>
         <ul>
-          <li><strong>Something you know</strong> â€” password, PIN</li>
-          <li><strong>Something you have</strong> â€” authenticator app, hardware key, phone</li>
-          <li><strong>Something you are</strong> â€” fingerprint, face scan</li>
+          <li><strong>Something you know</strong> &mdash; password, PIN</li>
+          <li><strong>Something you have</strong> &mdash; authenticator app, hardware key, phone</li>
+          <li><strong>Something you are</strong> &mdash; fingerprint, face scan</li>
         </ul>
         <p>Even if an attacker steals your password, MFA prevents them from logging in without your second factor.</p>
 
@@ -407,14 +407,14 @@
       </div>
     </div>
 
-    <!-- â”€â”€ BEST PRACTICES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── BEST PRACTICES ───────────────────────────────────── -->
     <div class="pg-tab-panel" id="tab-best-practices">
       <div class="ac-prose">
         <p>A security checklist based on NIST SP 800-63B, current threat models, and practical usability research.</p>
       </div>
       <div class="ac-checklist">
         <div class="ac-check-item"><div class="ac-check-num">1</div><div><div class="ac-check-title">Use unique passwords for every site</div><div class="ac-check-desc">One breach should not cascade into dozens of compromised accounts. A password manager makes this achievable.</div></div></div>
-        <div class="ac-check-item"><div class="ac-check-num">2</div><div><div class="ac-check-title">Prioritize length over complexity</div><div class="ac-check-desc">A 20-character passphrase beats a 10-character "complex" password on every metric â€” entropy, memorability, and crack resistance.</div></div></div>
+        <div class="ac-check-item"><div class="ac-check-num">2</div><div><div class="ac-check-title">Prioritize length over complexity</div><div class="ac-check-desc">A 20-character passphrase beats a 10-character "complex" password on every metric &mdash; entropy, memorability, and crack resistance.</div></div></div>
         <div class="ac-check-item"><div class="ac-check-num">3</div><div><div class="ac-check-title">Use a reputable password manager</div><div class="ac-check-desc">Bitwarden, 1Password, and KeePass are open-audited options. Let the manager generate and remember passwords for you.</div></div></div>
         <div class="ac-check-item"><div class="ac-check-num">4</div><div><div class="ac-check-title">Enable MFA on every critical account</div><div class="ac-check-desc">Email, banking, and cloud storage first. Use TOTP or hardware keys where possible, not SMS.</div></div></div>
         <div class="ac-check-item"><div class="ac-check-num">5</div><div><div class="ac-check-title">Store backup codes offline</div><div class="ac-check-desc">When you enable MFA, download and print backup codes. Store them physically. Losing MFA access can permanently lock you out.</div></div></div>
@@ -424,7 +424,7 @@
       </div>
     </div>
 
-    <!-- â”€â”€ INTERACTIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── INTERACTIVE ──────────────────────────────────────── -->
     <div class="pg-tab-panel" id="tab-interactive">
 
       <!-- Entropy visualizer -->
@@ -493,7 +493,7 @@
     if (matchTab) matchTab.click();
   }
 
-  // â”€â”€ Entropy visualizer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Entropy visualizer ─────────────────────────────────────
   const vizLength  = document.getElementById('viz-length');
   const vizCharset = document.getElementById('viz-charset');
   const vizLenVal  = document.getElementById('viz-length-val');
@@ -543,7 +543,7 @@
   vizCharset.addEventListener('change', updateViz);
   updateViz();
 
-  // â”€â”€ Dictionary attack demo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Dictionary attack demo ─────────────────────────────────
   const demoName   = document.getElementById('demo-name');
   const demoYear   = document.getElementById('demo-year');
   const demoOutput = document.getElementById('demo-output');

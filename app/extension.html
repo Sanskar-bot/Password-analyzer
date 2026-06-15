@@ -1,17 +1,17 @@
-﻿<!DOCTYPE html>
+?<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Download PassGuard Browser Extension â€” real-time password analysis, personalized attack detection, and smart generation directly inside Chrome, Edge, and Brave." />
-  <title>Browser Extension â€” PassGuard</title>
+  <meta name="description" content="Download PassGuard Browser Extension &mdash; real-time password analysis, personalized attack detection, and smart generation directly inside Chrome, Edge, and Brave." />
+  <title>Browser Extension &mdash; PassGuard</title>
   <link rel="icon" href="/app/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/app/passguard_icon.png" />
   <meta property="og:image" content="/app/passguard_logo.png" />
   <meta name="theme-color" content="#0F172A" />
   <link rel="stylesheet" href="platform.css" />
   <style>
-    /* â”€â”€ Layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── Layout ─────────────────────────────────────────────── */
     .ex-page  { max-width: 1160px; margin-inline: auto; padding-inline: var(--sp-6); padding-bottom: var(--sp-20); }
     .ex-inner { max-width: 780px; }
     .ex-section { padding-block: var(--sp-16); border-top: 1px solid var(--border-subtle); }
@@ -19,7 +19,7 @@
     .ex-h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.025em; color: var(--text-primary); margin-bottom: var(--sp-4); }
     .ex-lead { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; max-width: 640px; }
 
-    /* â”€â”€ Hero â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── Hero ───────────────────────────────────────────────── */
     .ex-hero {
       padding-top: calc(var(--nav-h) + var(--sp-16));
       padding-bottom: var(--sp-16);
@@ -69,7 +69,7 @@
     .ex-download-btn:active { transform: translateY(1px); }
     .ex-ver-note { font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: var(--sp-3); }
 
-    /* â”€â”€ Features grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── Features grid ──────────────────────────────────────── */
     .ex-feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--sp-4); margin-top: var(--sp-8); }
     .ex-feature-card {
       background: var(--bg-surface);
@@ -83,7 +83,7 @@
     .ex-feature-title { font-size: 0.9375rem; font-weight: 700; color: var(--text-primary); margin-bottom: var(--sp-2); }
     .ex-feature-desc  { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; }
 
-    /* â”€â”€ Installation timeline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── Installation timeline ──────────────────────────────── */
     .ex-timeline { display: flex; flex-direction: column; gap: 0; margin-top: var(--sp-8); position: relative; }
     .ex-timeline::before {
       content: '';
@@ -119,7 +119,7 @@
     .ex-step__code  { display: inline-block; margin-top: var(--sp-2); font-family: var(--font-mono); font-size: 0.875rem; background: var(--bg-raised); border: 1px solid var(--border-medium); border-radius: var(--radius-sm); padding: 4px 10px; color: var(--info); }
     .ex-step__tip   { margin-top: var(--sp-3); padding: var(--sp-3) var(--sp-4); background: var(--brand-subtle); border: 1px solid var(--brand-border); border-radius: var(--radius); font-size: 0.8125rem; color: var(--text-secondary); }
 
-    /* â”€â”€ How it works flow â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── How it works flow ──────────────────────────────────── */
     .ex-flow { display: flex; flex-direction: column; gap: 0; margin-top: var(--sp-8); max-width: 600px; }
     .ex-flow-item {
       display: flex; gap: var(--sp-4); position: relative;
@@ -140,7 +140,7 @@
     .ex-flow-label { font-size: 0.9375rem; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
     .ex-flow-sub   { font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5; }
 
-    /* â”€â”€ Screenshot gallery â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── Screenshot gallery ──────────────────────────────────── */
     .ex-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-5); margin-top: var(--sp-8); }
     .ex-gallery-frame {
       border-radius: var(--radius-lg);
@@ -176,7 +176,7 @@
     }
     .ex-gallery-caption { padding: var(--sp-3) var(--sp-4); font-size: 0.8125rem; font-weight: 600; color: var(--text-secondary); }
 
-    /* â”€â”€ Privacy â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── Privacy ─────────────────────────────────────────────── */
     .ex-privacy-wrap {
       background: linear-gradient(135deg, rgba(16,185,129,0.06) 0%, rgba(37,99,235,0.04) 100%);
       border: 1px solid rgba(16,185,129,0.18);
@@ -196,7 +196,7 @@
     .ex-privacy-text { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; }
     .ex-privacy-text strong { color: var(--text-primary); font-weight: 600; }
 
-    /* â”€â”€ Accordion (technical details + FAQ) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── Accordion (technical details + FAQ) ────────────────── */
     .ex-accordion { display: flex; flex-direction: column; gap: 2px; margin-top: var(--sp-6); }
     .ex-acc-item { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
     .ex-acc-trigger {
@@ -213,7 +213,7 @@
     .ex-acc-body code { font-family: var(--font-mono); font-size: 0.8125rem; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; color: var(--info); }
     .ex-acc-body ul { margin: var(--sp-2) 0 var(--sp-2) var(--sp-5); list-style: disc; display: flex; flex-direction: column; gap: 4px; }
 
-    /* â”€â”€ Changelog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── Changelog ───────────────────────────────────────────── */
     .ex-changelog { display: flex; flex-direction: column; gap: var(--sp-4); margin-top: var(--sp-6); }
     .ex-cl-item { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-5); }
     .ex-cl-header { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-4); flex-wrap: wrap; }
@@ -224,7 +224,7 @@
     .ex-cl-change { display: flex; align-items: flex-start; gap: var(--sp-2); font-size: 0.875rem; color: var(--text-secondary); }
     .ex-cl-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--brand); flex-shrink: 0; margin-top: 6px; }
 
-    /* â”€â”€ CTA Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── CTA Banner ──────────────────────────────────────────── */
     .ex-cta {
       background: linear-gradient(135deg, rgba(37,99,235,0.12) 0%, rgba(37,99,235,0.04) 100%);
       border: 1px solid var(--brand-border);
@@ -252,20 +252,20 @@
 
 <div class="ex-page">
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 1: HERO                                         -->
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <section class="ex-hero">
     <div>
       <div class="ex-hero__eyebrow">
         <span class="ex-hero__dot"></span>
-        Browser Extension â€” Chrome, Edge, Brave
+        Browser Extension &mdash; Chrome, Edge, Brave
       </div>
       <h1 class="ex-hero__h1">PassGuard<br/>Browser Extension</h1>
       <p class="ex-hero__sub">Real-time password analysis and personalized security insights directly inside your browser.</p>
       <p class="ex-hero__desc">
         Analyze passwords as you create accounts, update credentials, and manage online security.
-        PassGuard identifies weak passwords, personalized attack risks, and password patterns â€” without sending any data to external servers.
+        PassGuard identifies weak passwords, personalized attack risks, and password patterns &mdash; without sending any data to external servers.
       </p>
       <div class="ex-hero__actions">
         <a id="hero-download-btn" href="/app/downloads/passguard-extension-v1.0.0.zip" download class="ex-download-btn" style="width:auto;padding:12px 24px">
@@ -321,13 +321,13 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Download v1.0.0
       </a>
-      <p class="ex-ver-note">ZIP Â· 1.3 MB Â· No installer required</p>
+      <p class="ex-ver-note">ZIP &middot; 1.3 MB &middot; No installer required</p>
     </div>
   </section>
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 2: WHY INSTALL                                  -->
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <section class="ex-section">
     <div class="ex-eyebrow">Why PassGuard</div>
     <h2 class="ex-h2">Everything you need for password security, inline</h2>
@@ -338,21 +338,21 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </div>
         <div class="ex-feature-title">Real-Time Password Analysis</div>
-        <div class="ex-feature-desc">Entropy, character class coverage, pattern detection, wordlist matching, and brute-force time â€” all computed as you type, inline on any website.</div>
+        <div class="ex-feature-desc">Entropy, character class coverage, pattern detection, wordlist matching, and brute-force time &mdash; all computed as you type, inline on any website.</div>
       </div>
       <div class="ex-feature-card">
         <div class="ex-feature-icon" style="background:var(--danger-subtle);border:1px solid var(--danger-border);color:var(--danger)">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <div class="ex-feature-title">Personalized Attack Detection</div>
-        <div class="ex-feature-desc">Identifies passwords that are vulnerable to targeted attacks using your own name, birthday, pet, and personal keywords â€” the attack vectors most analyzers miss.</div>
+        <div class="ex-feature-desc">Identifies passwords that are vulnerable to targeted attacks using your own name, birthday, pet, and personal keywords &mdash; the attack vectors most analyzers miss.</div>
       </div>
       <div class="ex-feature-card">
         <div class="ex-feature-icon" style="background:var(--success-subtle);border:1px solid var(--success-border);color:var(--success)">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
         <div class="ex-feature-title">Smart Password Generator</div>
-        <div class="ex-feature-desc">Three generation modes â€” Memorable, Passphrase, and Max Security â€” with live strength analysis shown before you commit to a password.</div>
+        <div class="ex-feature-desc">Three generation modes &mdash; Memorable, Passphrase, and Max Security &mdash; with live strength analysis shown before you commit to a password.</div>
       </div>
       <div class="ex-feature-card">
         <div class="ex-feature-icon" style="background:var(--warning-subtle);border:1px solid var(--warning-border);color:var(--warning)">
@@ -373,14 +373,14 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>
         </div>
         <div class="ex-feature-title">Privacy First by Design</div>
-        <div class="ex-feature-desc">No tracking. No cloud storage. No account required. No analytics. Your security is built on trust â€” and you can verify every line of source code.</div>
+        <div class="ex-feature-desc">No tracking. No cloud storage. No account required. No analytics. Your security is built on trust &mdash; and you can verify every line of source code.</div>
       </div>
     </div>
   </section>
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 3: INSTALLATION GUIDE                           -->
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <section class="ex-section" id="installation">
     <div class="ex-eyebrow">Installation</div>
     <h2 class="ex-h2">Up and running in under two minutes</h2>
@@ -402,7 +402,7 @@
         <div class="ex-step__num">2</div>
         <div class="ex-step__body">
           <div class="ex-step__title">Extract the ZIP File</div>
-          <div class="ex-step__desc">Right-click the downloaded file and select "Extract All" (Windows) or double-click (macOS). Note the folder location â€” you will need it in Step 7.</div>
+          <div class="ex-step__desc">Right-click the downloaded file and select "Extract All" (Windows) or double-click (macOS). Note the folder location &mdash; you will need it in Step 7.</div>
           <div class="ex-step__tip">The extracted folder should be named <code>passguard-extension-v1.0.0</code> and contain a <code>manifest.json</code> file at its root.</div>
         </div>
       </div>
@@ -410,7 +410,7 @@
         <div class="ex-step__num">3</div>
         <div class="ex-step__body">
           <div class="ex-step__title">Open Chrome (or Edge / Brave)</div>
-          <div class="ex-step__desc">Open your Chromium-based browser. PassGuard supports Chrome, Edge, Brave, and Opera â€” all using the same extension package.</div>
+          <div class="ex-step__desc">Open your Chromium-based browser. PassGuard supports Chrome, Edge, Brave, and Opera &mdash; all using the same extension package.</div>
         </div>
       </div>
       <div class="ex-step">
@@ -419,7 +419,7 @@
           <div class="ex-step__title">Navigate to Extensions</div>
           <div class="ex-step__desc">In the address bar, type the extensions URL and press Enter:</div>
           <code class="ex-step__code">chrome://extensions</code>
-          <div class="ex-step__desc" style="margin-top:var(--sp-2)">For Edge: <code style="font-family:var(--font-mono);font-size:0.8125rem;padding:1px 5px;background:var(--bg-raised);border:1px solid var(--border);border-radius:4px;color:var(--info)">edge://extensions</code> â€” for Brave: <code style="font-family:var(--font-mono);font-size:0.8125rem;padding:1px 5px;background:var(--bg-raised);border:1px solid var(--border);border-radius:4px;color:var(--info)">brave://extensions</code></div>
+          <div class="ex-step__desc" style="margin-top:var(--sp-2)">For Edge: <code style="font-family:var(--font-mono);font-size:0.8125rem;padding:1px 5px;background:var(--bg-raised);border:1px solid var(--border);border-radius:4px;color:var(--info)">edge://extensions</code> &mdash; for Brave: <code style="font-family:var(--font-mono);font-size:0.8125rem;padding:1px 5px;background:var(--bg-raised);border:1px solid var(--border);border-radius:4px;color:var(--info)">brave://extensions</code></div>
         </div>
       </div>
       <div class="ex-step">
@@ -461,9 +461,9 @@
     </div>
   </section>
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 4: HOW IT WORKS                                 -->
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <section class="ex-section">
     <div class="ex-eyebrow">Architecture</div>
     <h2 class="ex-h2">How PassGuard works inline</h2>
@@ -503,14 +503,14 @@
           <div class="ex-flow-line"><div class="ex-flow-dot" style="background:var(--success)"></div><div class="ex-flow-connector"></div></div>
           <div class="ex-flow-body">
             <div class="ex-flow-label">Composite Score</div>
-            <div class="ex-flow-sub">A weighted composite security score from 0â€“100 is calculated, with individual component scores shown in the breakdown.</div>
+            <div class="ex-flow-sub">A weighted composite security score from 0&ndash;100 is calculated, with individual component scores shown in the breakdown.</div>
           </div>
         </div>
         <div class="ex-flow-item">
           <div class="ex-flow-line"><div class="ex-flow-dot" style="background:var(--brand)"></div></div>
           <div class="ex-flow-body" style="padding-bottom:0">
             <div class="ex-flow-label">Actionable Recommendations</div>
-            <div class="ex-flow-sub">Specific, contextual suggestions displayed inline â€” not generic advice, but recommendations based on detected issues.</div>
+            <div class="ex-flow-sub">Specific, contextual suggestions displayed inline &mdash; not generic advice, but recommendations based on detected issues.</div>
           </div>
         </div>
       </div>
@@ -556,13 +556,13 @@
     </div>
   </section>
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 5: SCREENSHOTS                                  -->
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <section class="ex-section">
     <div class="ex-eyebrow">Screenshots</div>
     <h2 class="ex-h2">See it in action</h2>
-    <p class="ex-lead">PassGuard integrates directly into websites â€” no popup required, no tab switching.</p>
+    <p class="ex-lead">PassGuard integrates directly into websites &mdash; no popup required, no tab switching.</p>
 
     <div class="ex-gallery">
       <div class="ex-gallery-frame">
@@ -582,7 +582,7 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           <span>Extension Popup</span>
         </div>
-        <div class="ex-gallery-caption">Inline analysis â€” 87/100 Very Strong</div>
+        <div class="ex-gallery-caption">Inline analysis &mdash; 87/100 Very Strong</div>
       </div>
 
       <div class="ex-gallery-frame">
@@ -641,13 +641,13 @@
     </div>
   </section>
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 6: PRIVACY & SECURITY                           -->
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <section class="ex-section" id="privacy">
     <div class="ex-eyebrow">Privacy &amp; Security</div>
     <h2 class="ex-h2">Your passwords stay private</h2>
-    <p class="ex-lead">PassGuard's architecture is built so that trust is not required â€” you can verify it yourself.</p>
+    <p class="ex-lead">PassGuard's architecture is built so that trust is not required &mdash; you can verify it yourself.</p>
 
     <div class="ex-privacy-wrap">
       <div style="display:flex;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-2)">
@@ -656,7 +656,7 @@
         </div>
         <div>
           <div style="font-size:1.125rem;font-weight:800;color:var(--text-primary);letter-spacing:-0.01em">Privacy by Design</div>
-          <div style="font-size:0.875rem;color:var(--text-secondary)">Not a policy â€” an architectural guarantee</div>
+          <div style="font-size:0.875rem;color:var(--text-secondary)">Not a policy &mdash; an architectural guarantee</div>
         </div>
       </div>
       <div class="ex-privacy-grid">
@@ -675,9 +675,9 @@
     </div>
   </section>
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 7: TECHNICAL DETAILS (collapsed)                -->
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <section class="ex-section">
     <div class="ex-eyebrow">Technical Details</div>
     <h2 class="ex-h2">For the technically curious</h2>
@@ -693,7 +693,7 @@
           <ul>
             <li>Chrome 88+</li><li>Edge 88+</li><li>Brave (latest)</li><li>Opera 74+</li>
           </ul>
-          <p>Firefox support is in progress â€” the MV3 API surface is now nearly compatible. A Firefox build is planned for v1.1.</p>
+          <p>Firefox support is in progress &mdash; the MV3 API surface is now nearly compatible. A Firefox build is planned for v1.1.</p>
         </div>
       </div>
       <div class="ex-acc-item">
@@ -746,19 +746,19 @@
           <p>The complete source code is available at <a href="https://github.com/Sanskar-bot/Password-analyzer" target="_blank" rel="noopener" style="color:var(--brand-hover)">github.com/Sanskar-bot/Password-analyzer</a>.</p>
           <p>The extension source is in the <code>extension/</code> directory. Key files:</p>
           <ul>
-            <li><code>extension/manifest.json</code> â€” permissions, version, entry points</li>
-            <li><code>extension/content/content.js</code> â€” main content script</li>
-            <li><code>extension/modules/</code> â€” analysis modules</li>
-            <li><code>extension/popup/</code> â€” extension popup UI</li>
+            <li><code>extension/manifest.json</code> &mdash; permissions, version, entry points</li>
+            <li><code>extension/content/content.js</code> &mdash; main content script</li>
+            <li><code>extension/modules/</code> &mdash; analysis modules</li>
+            <li><code>extension/popup/</code> &mdash; extension popup UI</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 8: CHANGELOG                                    -->
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <section class="ex-section">
     <div class="ex-eyebrow">Changelog</div>
     <h2 class="ex-h2">Release history</h2>
@@ -775,10 +775,10 @@
           <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--brand)"></div><span>Multi-layer scoring: entropy, patterns, wordlist, brute-force, username similarity</span></div>
           <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--brand)"></div><span>Personalized attack detection using Security Profile</span></div>
           <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--brand)"></div><span>Smart password generator with Memorable, Passphrase, and Max Security modes</span></div>
-          <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--brand)"></div><span>Context-aware generator â€” only shown on signup forms</span></div>
-          <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--brand)"></div><span>Shadow DOM isolation â€” zero CSS conflicts with host pages</span></div>
+          <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--brand)"></div><span>Context-aware generator &mdash; only shown on signup forms</span></div>
+          <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--brand)"></div><span>Shadow DOM isolation &mdash; zero CSS conflicts with host pages</span></div>
           <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--brand)"></div><span>Manifest V3 compliant</span></div>
-          <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--brand)"></div><span>Zero network requests â€” fully offline</span></div>
+          <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--brand)"></div><span>Zero network requests &mdash; fully offline</span></div>
         </div>
       </div>
 
@@ -791,16 +791,16 @@
         <div class="ex-cl-changes">
           <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--text-muted)"></div><span>Firefox and Safari support</span></div>
           <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--text-muted)"></div><span>Chrome Web Store listing</span></div>
-          <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--text-muted)"></div><span>Breach check integration (k-anonymity model â€” no plaintext sent)</span></div>
+          <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--text-muted)"></div><span>Breach check integration (k-anonymity model &mdash; no plaintext sent)</span></div>
           <div class="ex-cl-change"><div class="ex-cl-dot" style="background:var(--text-muted)"></div><span>Password reuse detection across saved sites</span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 9: FAQ                                          -->
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <section class="ex-section" id="faq">
     <div class="ex-eyebrow">FAQ</div>
     <h2 class="ex-h2">Frequently asked questions</h2>
@@ -811,7 +811,7 @@
           <svg class="ex-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="ex-acc-body">
-          Chrome Web Store submission is planned for v1.1. The review process requires preparation and a developer account. In the meantime, the extension can be installed in under two minutes using the steps above â€” and loading it directly from source gives you full visibility into exactly what code is running.
+          Chrome Web Store submission is planned for v1.1. The review process requires preparation and a developer account. In the meantime, the extension can be installed in under two minutes using the steps above &mdash; and loading it directly from source gives you full visibility into exactly what code is running.
         </div>
       </div>
       <div class="ex-acc-item">
@@ -820,7 +820,7 @@
           <svg class="ex-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="ex-acc-body">
-          Yes. Developer mode is a standard Chrome feature used by developers and security researchers. Loading unpacked is safer in some ways than installing from the Web Store, because you can inspect every file in the package before loading it. PassGuard is open source â€” you can read every line before installing.
+          Yes. Developer mode is a standard Chrome feature used by developers and security researchers. Loading unpacked is safer in some ways than installing from the Web Store, because you can inspect every file in the package before loading it. PassGuard is open source &mdash; you can read every line before installing.
         </div>
       </div>
       <div class="ex-acc-item">
@@ -829,7 +829,7 @@
           <svg class="ex-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="ex-acc-body">
-          No. PassGuard makes zero network requests. All analysis is performed locally in your browser. You can verify this by opening DevTools â†’ Network tab while PassGuard is running â€” you will see no requests originating from the extension.
+          No. PassGuard makes zero network requests. All analysis is performed locally in your browser. You can verify this by opening DevTools &rarr; Network tab while PassGuard is running &mdash; you will see no requests originating from the extension.
         </div>
       </div>
       <div class="ex-acc-item">
@@ -847,7 +847,7 @@
           <svg class="ex-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="ex-acc-body">
-          Chrome, Edge, Brave, and Opera â€” any Chromium-based browser that supports Manifest V3. Firefox support is in progress. Safari uses a different extension system and is not currently supported.
+          Chrome, Edge, Brave, and Opera &mdash; any Chromium-based browser that supports Manifest V3. Firefox support is in progress. Safari uses a different extension system and is not currently supported.
         </div>
       </div>
       <div class="ex-acc-item">
@@ -856,7 +856,7 @@
           <svg class="ex-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="ex-acc-body">
-          Yes â€” completely. All wordlists, analysis modules, and generation logic are bundled into the extension. PassGuard functions identically with or without an internet connection. There are no remote dependencies.
+          Yes &mdash; completely. All wordlists, analysis modules, and generation logic are bundled into the extension. PassGuard functions identically with or without an internet connection. There are no remote dependencies.
         </div>
       </div>
       <div class="ex-acc-item">
@@ -865,7 +865,7 @@
           <svg class="ex-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="ex-acc-body">
-          Your profile is stored in <code>localStorage</code> in your browser under the key <code>pg_profile_v1</code>. It is never transmitted anywhere. You can export it as JSON, clear it, or inspect it directly in DevTools â†’ Application â†’ Local Storage at any time.
+          Your profile is stored in <code>localStorage</code> in your browser under the key <code>pg_profile_v1</code>. It is never transmitted anywhere. You can export it as JSON, clear it, or inspect it directly in DevTools &rarr; Application &rarr; Local Storage at any time.
         </div>
       </div>
       <div class="ex-acc-item">
@@ -874,26 +874,26 @@
           <svg class="ex-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="ex-acc-body">
-          PassGuard works on any website with a standard <code>&lt;input type="password"&gt;</code> field. Most login and signup pages use this. Some sites with heavily custom inputs or embedded iframes may not be detected â€” this will be addressed in future versions.
+          PassGuard works on any website with a standard <code>&lt;input type="password"&gt;</code> field. Most login and signup pages use this. Some sites with heavily custom inputs or embedded iframes may not be detected &mdash; this will be addressed in future versions.
         </div>
       </div>
     </div>
   </section>
 
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- DOWNLOAD CTA                                            -->
-  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <div class="ex-cta">
     <h2>Ready to install?</h2>
-    <p>Download PassGuard and get real-time password security on every website you visit â€” in under two minutes.</p>
+    <p>Download PassGuard and get real-time password security on every website you visit &mdash; in under two minutes.</p>
     <div class="ex-cta-actions">
       <a href="/app/downloads/passguard-extension-v1.0.0.zip" download class="ex-download-btn" style="width:auto;padding:13px 28px;font-size:1rem">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download Extension â€” v1.0.0
+        Download Extension &mdash; v1.0.0
       </a>
       <a href="#installation" class="pg-btn pg-btn--secondary" style="padding:13px 20px;font-size:1rem">Installation Guide</a>
     </div>
-    <p style="font-size:0.8125rem;color:var(--text-muted);margin-top:var(--sp-4)">ZIP Â· 1.3 MB Â· Chrome, Edge, Brave, Opera Â· No account required</p>
+    <p style="font-size:0.8125rem;color:var(--text-muted);margin-top:var(--sp-4)">ZIP &middot; 1.3 MB &middot; Chrome, Edge, Brave, Opera &middot; No account required</p>
   </div>
 
 </div><!-- /ex-page -->
@@ -902,7 +902,7 @@
   import { inject } from './nav.js';
   inject();
 
-  // Accordion logic â€” scoped to siblings within the same container
+  // Accordion logic &mdash; scoped to siblings within the same container
   document.querySelectorAll('.ex-acc-trigger').forEach(btn => {
     btn.addEventListener('click', () => {
       const item    = btn.closest('.ex-acc-item');

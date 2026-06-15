@@ -338,7 +338,7 @@ function renderPersonalResults(results) {
   // Score bar
   paScoreValue.textContent = `${score}/100`;
   // Colour: red  yellow  green mapped to 0100
-  const hue = Math.round(score * 1.2); // 0=red(0°), 100=green(120°)
+  const hue = Math.round(score * 1.2); // 0=red(0�), 100=green(120�)
   paScoreFill.style.width      = `${score}%`;
   paScoreFill.style.background = `hsl(${hue},70%,50%)`;
 

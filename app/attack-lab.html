@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+?<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Personalized Attack Lab â€” generate a custom attack dictionary from your personal information and test your password's resistance to targeted attacks." />
-  <title>Personalized Attack Lab â€” PassGuard</title>
+  <meta name="description" content="Personalized Attack Lab &mdash; generate a custom attack dictionary from your personal information and test your password's resistance to targeted attacks." />
+  <title>Personalized Attack Lab &mdash; PassGuard</title>
   <link rel="icon" href="/app/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/app/passguard_icon.png" />
   <meta property="og:image" content="/app/passguard_logo.png" />
@@ -154,7 +154,7 @@
       <div class="pg-page-header__eyebrow">Flagship Feature</div>
       <div class="pg-page-header__title">Personalized Attack Lab</div>
       <div class="pg-page-header__desc">
-        Generate a custom attack dictionary from your personal information â€” names, dates, pets, nicknames â€”
+        Generate a custom attack dictionary from your personal information &mdash; names, dates, pets, nicknames &mdash;
         and test whether your password would survive a targeted attack. This is what separates PassGuard from every other strength meter.
       </div>
       <div class="pg-page-header__meta">
@@ -163,13 +163,13 @@
       </div>
     </div>
 
-    <!-- â”€â”€ Attack flag â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── Attack flag ─────────────────────────────────── -->
     <div class="al-flag" role="note">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       All data is processed locally. Nothing you enter here is sent to any server.
     </div>
 
-    <!-- â”€â”€ Password input â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── Password input ──────────────────────────────── -->
     <div class="pg-card pg-mb-6" id="al-pw-section">
       <div class="pg-section-title">Password to Test</div>
       <div class="al-pw-row">
@@ -186,7 +186,7 @@
       <p class="pg-caption">This password will be checked against the dictionary generated from your profile below.</p>
     </div>
 
-    <!-- â”€â”€ Profile form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── Profile form ────────────────────────────────── -->
     <div class="pg-card pg-mb-6">
       <div class="pg-section-title">Personal Profile</div>
       <p class="pg-body-sm pg-mb-4">Fill in what you know. All fields are optional. More detail generates a more realistic attack dictionary.</p>
@@ -241,47 +241,47 @@
       </div>
     </div>
 
-    <!-- â”€â”€ Loading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── Loading ─────────────────────────────────────── -->
     <div class="pg-card hidden" id="al-loading" aria-live="polite">
       <div style="display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-4)">
         <div class="al-spinner"></div>
         <div>
           <div style="font-size:0.9375rem;font-weight:600;color:var(--text-primary)" id="al-loading-title">Generating personalized dictionary</div>
-          <div style="font-size:0.8125rem;color:var(--text-secondary);margin-top:2px" id="al-loading-sub">Analyzing name combinations, dates, and patternsâ€¦</div>
+          <div style="font-size:0.8125rem;color:var(--text-secondary);margin-top:2px" id="al-loading-sub">Analyzing name combinations, dates, and patterns&hellip;</div>
         </div>
       </div>
     </div>
 
-    <!-- â”€â”€ Results â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── Results ─────────────────────────────────────── -->
     <div id="al-results" class="hidden" aria-live="polite">
 
       <!-- Attack flow -->
       <div class="al-flow" role="img" aria-label="Attack pipeline visualization">
         <div class="al-flow-node">Profile Data</div>
-        <div class="al-flow-arrow">â€º</div>
+        <div class="al-flow-arrow">&rsaquo;</div>
         <div class="al-flow-node">Pattern Engine</div>
-        <div class="al-flow-arrow">â€º</div>
-        <div class="al-flow-node">Dictionary<br/><span id="al-flow-size" style="font-weight:700">â€”</span> entries</div>
-        <div class="al-flow-arrow">â€º</div>
-        <div class="al-flow-node" id="al-flow-result">Testingâ€¦</div>
-        <div class="al-flow-arrow">â€º</div>
+        <div class="al-flow-arrow">&rsaquo;</div>
+        <div class="al-flow-node">Dictionary<br/><span id="al-flow-size" style="font-weight:700">&mdash;</span> entries</div>
+        <div class="al-flow-arrow">&rsaquo;</div>
+        <div class="al-flow-node" id="al-flow-result">Testing&hellip;</div>
+        <div class="al-flow-arrow">&rsaquo;</div>
         <div class="al-flow-node" id="al-flow-verdict">Result</div>
       </div>
 
       <!-- Stats row -->
       <div class="al-stats-grid">
         <div class="al-stat">
-          <div class="al-stat__val" id="al-dict-size">â€”</div>
+          <div class="al-stat__val" id="al-dict-size">&mdash;</div>
           <div class="al-stat__label">Dictionary Size</div>
           <div class="al-stat__sub">passwords generated</div>
         </div>
         <div class="al-stat" id="al-found-stat">
-          <div class="al-stat__val" id="al-found">â€”</div>
+          <div class="al-stat__val" id="al-found">&mdash;</div>
           <div class="al-stat__label">Password Found</div>
           <div class="al-stat__sub" id="al-found-sub">in dictionary</div>
         </div>
         <div class="al-stat" id="al-rank-stat">
-          <div class="al-stat__val" id="al-rank">â€”</div>
+          <div class="al-stat__val" id="al-rank">&mdash;</div>
           <div class="al-stat__label">Attack Rank</div>
           <div class="al-stat__sub">guess number</div>
         </div>
@@ -291,7 +291,7 @@
       <div class="pg-card pg-mb-4">
         <div class="al-score-header">
           <span class="al-score-label">Personalized Attack Resistance</span>
-          <span class="al-score-value" id="al-score-value">â€”</span>
+          <span class="al-score-value" id="al-score-value">&mdash;</span>
         </div>
         <div class="al-score-track">
           <div class="al-score-fill" id="al-score-fill"></div>
@@ -299,7 +299,7 @@
 
         <div class="al-risk-row">
           <span class="al-risk-label">Risk Level</span>
-          <span class="al-risk-badge" id="al-risk-badge">â€”</span>
+          <span class="al-risk-badge" id="al-risk-badge">&mdash;</span>
         </div>
 
         <div class="pg-section-title" style="margin-top:var(--sp-4)">Analysis Details</div>
@@ -314,7 +314,7 @@
 
     </div><!-- /al-results -->
 
-    <!-- â”€â”€ Education â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── Education ───────────────────────────────────── -->
     <div class="al-edu">
       <div class="al-edu-title">Why targeted attacks are different</div>
       <div class="al-edu-grid">
@@ -325,11 +325,11 @@
         <div class="al-edu-point">
           <strong>Personalized attacks</strong> are different. An attacker who knows your name, birthday,
           or pet's name will generate combinations like <code>Bruno2004</code>, <code>Sanskar@123</code>,
-          or <code>Phougat#07</code> â€” passwords that pass generic strength checks but fail against a targeted attacker.
+          or <code>Phougat#07</code> &mdash; passwords that pass generic strength checks but fail against a targeted attacker.
         </div>
         <div class="al-edu-point">
           <strong>PassGuard's engine</strong> generates thousands of variants using your real information,
-          then checks whether your password appears in that dictionary â€” simulating exactly what an attacker who knows you would do.
+          then checks whether your password appears in that dictionary &mdash; simulating exactly what an attacker who knows you would do.
         </div>
         <div class="al-edu-point">
           <strong>The result</strong> is a personalized resistance score on top of the standard strength score.
@@ -349,7 +349,7 @@
 <script type="module">
   import { inject } from './nav.js';
   inject();
-  // â”€â”€ Attack Lab standalone logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Attack Lab standalone logic ────────────────────────────
   const { runPersonalizedAnalysis, downloadDictionary } =
     await import('../shared/personalDictionary.js');
 
@@ -458,7 +458,7 @@
       const list = $('al-explanation-list');
       const exps = result.explanations || result.reasoning || [];
       list.innerHTML = (Array.isArray(exps) ? exps : [String(exps)]).map(e =>
-        `<li><span style="flex-shrink:0;color:var(--text-muted)">â€º</span> ${e}</li>`
+        `<li><span style="flex-shrink:0;color:var(--text-muted)">&rsaquo;</span> ${e}</li>`
       ).join('');
 
       $('al-loading').classList.add('hidden');
