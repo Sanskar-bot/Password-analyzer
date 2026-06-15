@@ -280,7 +280,15 @@
       if (ws) ws.host.style.display = hide ? 'none' : '';
     }
 
-    // Show/hide with the field's focus state
+    // Show/hide with the field's focus state.
+    // CRITICAL: use a mousedown flag on the host so that clicking any button
+    // inside the shadow panel does NOT trigger the blur → hide path.
+    // (document.activeElement becomes the shadow HOST when focus moves inside
+    //  the shadow, so shadow.contains(document.activeElement) is always false.)
+    let panelMouseDown = false;
+    host.addEventListener('mousedown', () => { panelMouseDown = true; });
+    host.addEventListener('mouseup',   () => { panelMouseDown = false; });
+
     target.addEventListener('focus', () => {
       host.style.display = '';
       repositionGenerator();
@@ -288,11 +296,14 @@
     });
     target.addEventListener('blur', () => {
       setTimeout(() => {
-        if (!shadow.activeElement && !shadow.contains(document.activeElement)) {
-          host.style.display = 'none';
-          suppressStrengthWidget(false);
-        }
-      }, 250);
+        // Keep panel open if:
+        //   a) user is clicking something inside the panel (panelMouseDown)
+        //   b) focus moved into the shadow DOM (shadow.activeElement is set)
+        //   c) focus returned to the host element itself
+        if (panelMouseDown || shadow.activeElement || document.activeElement === host) return;
+        host.style.display = 'none';
+        suppressStrengthWidget(false);
+      }, 300);
     });
     if (document.activeElement === target) {
       host.style.display = '';
@@ -327,9 +338,22 @@
       for (const b of [el.regen, el.copy, el.analyze]) b.hidden = false;
     }
 
+    // ── Profile pre-load ─────────────────────────────────────────────────────
+    // Load the user profile ONCE when the panel is first created so it is
+    // always available by the time the user clicks Generate.
+    let cachedProfile = {};
+    modules.profileStore.getProfile().then(p => {
+      if (p && typeof p === 'object') cachedProfile = p;
+    }).catch(() => {});
+
     // ── Helpers ──────────────────────────────────────────────────────────────
     async function validationOptions() {
-      const profile = await modules.profileStore.getProfile() || {};
+      // Refresh profile in case it was updated since panel was shown
+      try {
+        const fresh = await modules.profileStore.getProfile();
+        if (fresh && typeof fresh === 'object') cachedProfile = fresh;
+      } catch (_) {}
+      const profile = cachedProfile;
       await modules.dictCache.warmCache();
       return {
         profile,
