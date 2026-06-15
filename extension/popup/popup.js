@@ -20,8 +20,10 @@ import { generateSuggestions }           from '../modules/suggestions.js';
 import { generateSmartPassword, scoreGeneratedPassword } from '../modules/smartGenerator.js';
 import { generatePersonalPassword, checkVulnerability, explainPassword,
          isProfileFilled, countFilledFields } from '../modules/personalGenerator.js';
-import { warmCache, lookup, invalidate, isReady } from '../modules/dictCache.js';
+import { warmCache, lookup, invalidate, isReady, getSize } from '../modules/dictCache.js';
 import { getProfile, getDictMeta, getHistory, addToHistory } from '../modules/profileStore.js';
+import { generateContextAwarePassword } from '../modules/profilePasswordGenerator.js';
+import { validateGeneratedPassword } from '../modules/generatorValidator.js';
 
 //  Constants 
 const RING_R = 50;
@@ -48,6 +50,8 @@ const $ = (id) => document.getElementById(id);
 // Tabs
 const tabBtns   = document.querySelectorAll('.tab-btn');
 const tabPanels = document.querySelectorAll('.tab-panel');
+const generateTabBtn = $('tab-generate');
+if (generateTabBtn) generateTabBtn.hidden = true;
 
 // Analyze
 const passwordInput  = $('popup-password');
@@ -151,6 +155,8 @@ let sgLiveDebounce  = null;
 let profileData     = null;
 let dictMeta        = null;
 let dictCacheReady  = false;
+let activePasswordContext = null;
+let activeWebsiteContext = null;
 
 // Mode metadata
 const SG_MODES = {
@@ -218,7 +224,7 @@ async function initFromPage() {
     // Check password field + new-password context in parallel
     const [pwResponse, ctxResponse] = await Promise.allSettled([
       chrome.tabs.sendMessage(tab.id, { type: 'GET_PASSWORD' }),
-      chrome.runtime.sendMessage({ type: 'GET_NEW_PASSWORD_CONTEXT', tabId: tab.id }),
+      chrome.tabs.sendMessage(tab.id, { type: 'GET_PASSWORD_CONTEXT' }),
     ]);
 
     // Import password if available
@@ -233,9 +239,18 @@ async function initFromPage() {
       });
     }
 
-    // Handle new-password context: auto-switch to Generate tab
+    // Handle account-creation/password-change context.
     const ctx = ctxResponse.status === 'fulfilled' ? ctxResponse.value : null;
-    if (ctx?.isNewPassword) {
+    activePasswordContext = ctx;
+    activeWebsiteContext = ctx?.websiteContext || null;
+    if (ctx?.eligible || ctx?.isNewPassword) {
+      if (generateTabBtn) generateTabBtn.hidden = false;
+      const modeBar = document.querySelector('.sg-modes');
+      if (modeBar) modeBar.style.display = 'none';
+      if (sgModeHint) {
+        const brand = activeWebsiteContext?.brand || ctx.url || 'this site';
+        sgModeHint.textContent = `Personalized, validated, and unique for ${brand}`;
+      }
       // Switch to Generate tab
       tabBtns.forEach(b => b.classList.remove('active'));
       tabPanels.forEach(p => p.classList.remove('active'));
@@ -244,7 +259,12 @@ async function initFromPage() {
       $('panel-generate').classList.add('active');
 
       // Show the new-password banner
-      if (sgNewPwBanner) sgNewPwBanner.hidden = false;
+      if (sgNewPwBanner) {
+        const workflow = ctx.type === 'password-change' ? 'Password change' : 'Account creation';
+        const brand = activeWebsiteContext?.brand || ctx.url || 'this site';
+        sgNewPwBanner.textContent = `${workflow} detected for ${brand}`;
+        sgNewPwBanner.hidden = false;
+      }
 
       // If profile is filled, auto-select Personalized mode
       const mappedProfile = mapProfileToGenerator(profileData);
@@ -254,8 +274,11 @@ async function initFromPage() {
         if (personalBtn) { personalBtn.classList.add('active'); personalBtn.setAttribute('aria-selected', 'true'); }
         sgCurrentMode = 'personalSecure';
         sgUpdateModeUI('personalSecure');
-        sgGenerate();
       }
+      sgGenerate();
+    } else {
+      if (generateTabBtn) generateTabBtn.hidden = true;
+      if (sgNewPwBanner) sgNewPwBanner.hidden = true;
     }
   } catch (_) {
     // Page doesn't have content script (e.g., chrome:// pages)
@@ -475,27 +498,6 @@ copyBtn.addEventListener('click', () => {
   }
 });
 
-//  Generator 
-const PASSPHRASES = [
-  ['coral','orbit','maple','seven'],['signal','frost','ember','quick'],
-  ['noble','storm','lunar','brave'],['cobalt','river','prism','echo'],
-  ['sonic','flash','delta','tiger'],['amber','cloud','nexus','flame'],
-];
-
-function getPassphrase() {
-  const words = PASSPHRASES[Math.floor(Math.random() * PASSPHRASES.length)];
-  return words.join('-');
-}
-
-modeBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    modeBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentMode = btn.dataset.mode;
-    genOptions.style.display = currentMode === 'secure' ? '' : 'none';
-  });
-});
-
 // ── Smart Generator Controller ────────────────────────────────────────────────
 
 // ── Profile field adapter ─────────────────────────────────────────────────────
@@ -523,10 +525,10 @@ function sgGetOpts() {
   return {
     wordCount:  parseInt(sgWcSlider?.value ?? '3', 10),
     separator:  sgSeparator,
-    useNumbers: sgUseNums?.checked ?? true,
-    useSymbols: sgUseSyms?.checked ?? false,
+    digits:     sgUseNums?.checked ?? true,
+    symbols:    sgUseSyms?.checked ?? false,
     capitalize: sgCapitalize?.checked ?? true,
-    theme:      sgTheme?.value || '',
+    category:   sgTheme?.value || '',
   };
 }
 
@@ -561,6 +563,24 @@ function sgRenderScore(res) {
   sgUseBtn.style.display   = '';
 }
 
+function sgRenderContextValidation(validation) {
+  const result = {
+    ...validation.scoreResult,
+    ...validation.strength,
+  };
+  sgRenderScore(result);
+  if (sgExplainStrip) {
+    sgExplainStrength.textContent = `${validation.strengthScore}/100`;
+    sgExplainPersonal.textContent = `${validation.personalizedAttackScore}/100`;
+    sgExplainReason.textContent = validation.reasoning;
+    sgExplainStrip.hidden = false;
+  }
+  if (sgWarnBadge) {
+    sgWarnBadge.textContent = validation.passed ? 'Passes every generator check' : validation.reasoning;
+    sgWarnBadge.hidden = false;
+  }
+}
+
 function sgGenerate() {
   sgGenBtn.textContent = 'Generating…';
   sgGenBtn.disabled    = true;
@@ -569,7 +589,28 @@ function sgGenerate() {
 
   setTimeout(async () => {
     try {
-      if (sgCurrentMode === 'personalSecure') {
+      if (activePasswordContext?.eligible && activeWebsiteContext) {
+        if (!dictCacheReady && dictMeta?.size > 0) {
+          await warmCache();
+          dictCacheReady = true;
+        }
+        const result = await generateContextAwarePassword({
+          profile: profileData || {},
+          websiteContext: activeWebsiteContext,
+          username: usernameInput.value.trim(),
+          validation: {
+            dictionaryLookup: dictCacheReady && isReady() ? lookup : null,
+            dictionarySize: getSize(),
+          },
+          options: {
+            wordCount: parseInt(sgWcSlider?.value ?? '3', 10),
+            separator: sgSeparator,
+            symbols: sgUseSyms?.checked ?? true,
+          },
+        });
+        sgPwField.value = result.password;
+        sgRenderContextValidation(result.validation);
+      } else if (sgCurrentMode === 'personalSecure') {
         // ── Personalized mode ──
         const mappedProfile = mapProfileToGenerator(profileData);
         const result = generatePersonalPassword(mappedProfile, {
@@ -626,6 +667,17 @@ function sgLiveAnalyse() {
     if (sgWarnBadge) sgWarnBadge.hidden = true;
     return;
   }
+  if (activePasswordContext?.eligible && activeWebsiteContext) {
+    validateGeneratedPassword(pw, {
+      profile: profileData || {},
+      username: usernameInput.value.trim(),
+      domain: activeWebsiteContext.domain,
+      dictionaryLookup: dictCacheReady && isReady() ? lookup : null,
+      dictionarySize: getSize(),
+    }).then(sgRenderContextValidation).catch(() => {});
+    return;
+  }
+
   const res = scoreGeneratedPassword(pw);
   sgRenderScore(res);
 
@@ -787,6 +839,5 @@ function flashButton(btn, tempText) {
   setTimeout(() => { btn.textContent = orig; }, 1500);
 }
 
-//  Init 
-sgGenerate();
+// Generation starts only after an eligible account workflow is detected.
 

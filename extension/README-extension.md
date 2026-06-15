@@ -1,4 +1,4 @@
-# VaultZero  Password Intelligence Extension
+# VaultZero — Password Intelligence Extension
 
 > **Production-quality Manifest V3 Chrome extension** for real-time password analysis on any login page. 100% local  your passwords never leave your browser.
 
@@ -11,7 +11,7 @@
 |  Real-Time Widget | Inline strength indicator beside every `<input type="password">` |
 |  Full Analysis | Entropy, patterns, dictionary, username similarity, crack times |
 |  Attack Simulator | CUPP-inspired 10,00015,000 personalized targeted guesses |
-|  Password Generator | Cryptographically secure (3 modes: Maximum / Memorable / Passphrase) |
+| Context-Aware Generator | Personalized passwords shown only for account creation and password changes |
 | ⬇ Dictionary Export | Download your personalized attack dictionary as `.txt` |
 |  Privacy-First | Zero network requests, zero data collection, zero storage of passwords |
 |  Badge Score | Extension badge shows live score while you type |
@@ -51,6 +51,10 @@ extension/
     dictionary.worker.js        Web Worker for dictionary generation
 
  modules/                        All reused from original web app
+    contextDetector.js           Signup/change/login form classification
+    websiteContext.js            Domain, brand, and context keyword extraction
+    profilePasswordGenerator.js  Context-aware candidate generation
+    generatorValidator.js        Full acceptance and reuse validation pipeline
     strength.js                 Entropy & charset analysis
     patterns.js                 Keyboard walks, sequences, repeats
     scorer.js                   0100 aggregate score
@@ -97,11 +101,32 @@ extension/
 4. Click **Run Attack Simulation**
 5. The Web Worker generates 10,00015,000 targeted guesses and checks if your password is in them
 
-### Password Generator
-1. Open popup  **Generate** tab
-2. Choose mode: Maximum Security / Memorable / Passphrase
-3. Adjust length and character options
-4. Click **Generate**  **Copy** or **Use in Analyzer**
+### Context-Aware Password Generator
+1. Open an account creation or password change form.
+2. VaultZero classifies the form locally. Standard login forms are explicitly excluded.
+3. Use the inline **Generate Password** panel or open the extension popup.
+4. Edit the generated password freely. Strength and personalized attack scores update immediately.
+5. Click **Use Password** in the inline panel to fill the new-password and confirmation fields.
+
+The generator combines a profile-derived memory theme, website context, and
+cryptographically secure random components. Raw profile values such as names,
+nicknames, pet names, custom keywords, and dates are never copied into generated
+passwords.
+
+Every candidate must pass:
+
+- Strength score greater than 80
+- Personalized attack score greater than 80
+- Common-password and predictable-pattern checks
+- Personalized dictionary lookup
+- Raw profile and date exposure checks
+- Cross-account reuse similarity checks
+
+Reuse protection stores only SHA-256-based signatures and hashed similarity
+features in `chrome.storage.local`; plaintext generated passwords are not stored.
+
+Known domains such as GitHub, LinkedIn, Amazon, and Netflix use curated context
+keywords. Unknown domains use conservative brand and form metadata inference.
 
 ---
 
@@ -111,8 +136,9 @@ extension/
 |---|---|---|---|
 | Passwords | Content script (local) |  Never |  Never |
 | Analysis results | Popup JS (local) |  Never |  Never |
-| Personal profile | Web Worker (local) |  Never |  Never |
-| Generated dictionary | Web Worker (local) |  Never |  Never |
+| Personal profile | Extension modules (local) | chrome.storage.local | Never |
+| Generated dictionary | Web Worker / extension modules | chrome.storage.local | Never |
+| Reuse signatures | Extension modules | Hashed locally | Never |
 | Settings | chrome.storage.sync |  Local device |  Never |
 
 **The extension makes zero network requests.**

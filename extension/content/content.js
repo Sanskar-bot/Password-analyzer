@@ -24,6 +24,7 @@
   let settings = {
     enableWidget:       true,
     enablePersonalized: true,
+    enableGenerator:    true,
     enableBadge:        true,
     widgetPosition:     'below',
   };
@@ -34,12 +35,219 @@
     if (changes.settings) {
       settings = { ...settings, ...changes.settings.newValue };
       if (!settings.enableWidget) removeAllWidgets();
+      if (!settings.enableGenerator) removeAllGeneratorHosts();
     }
   });
 
   //  State 
   const widgetMap = new WeakMap();
+  let generatorMap = new WeakMap();
   let observerTimeout = null;
+  let contextModulesPromise = null;
+
+  function getContextModules() {
+    if (!contextModulesPromise) {
+      contextModulesPromise = Promise.all([
+        import(chrome.runtime.getURL('modules/contextDetector.js')),
+        import(chrome.runtime.getURL('modules/websiteContext.js')),
+        import(chrome.runtime.getURL('modules/profilePasswordGenerator.js')),
+        import(chrome.runtime.getURL('modules/generatorValidator.js')),
+        import(chrome.runtime.getURL('modules/profileStore.js')),
+        import(chrome.runtime.getURL('modules/dictCache.js')),
+      ]).then(([detector, website, generator, validator, profileStore, dictCache]) => ({
+        detector, website, generator, validator, profileStore, dictCache,
+      }));
+    }
+    return contextModulesPromise;
+  }
+
+  function dispatchFieldValue(input, value) {
+    const descriptor = Object.getOwnPropertyDescriptor(
+      HTMLInputElement.prototype,
+      'value'
+    );
+    if (descriptor?.set) descriptor.set.call(input, value);
+    else input.value = value;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  function nearbyUsername(input) {
+    const form = input.closest('form') || document;
+    const field = form.querySelector(
+      'input[type="email"],input[autocomplete="username"],input[name*="user" i],input[name*="email" i],input[id*="user" i],input[id*="email" i]'
+    );
+    return field?.value?.trim() || '';
+  }
+
+  function generatorCSS() {
+    return `
+      *,*::before,*::after{box-sizing:border-box}
+      .panel{margin-top:7px;padding:10px;font:12px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#e2e8f0;background:#0b1220;border:1px solid rgba(14,165,233,.35);border-radius:7px;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+      .head,.scores,.actions{display:flex;align-items:center;gap:7px}
+      .head{margin-bottom:8px}.title{font-weight:750;flex:1}.context{font-size:10px;color:#7dd3fc}
+      .pw{width:100%;min-width:0;padding:8px 9px;border:1px solid #334155;border-radius:5px;background:#020617;color:#f8fafc;font:12px ui-monospace,SFMono-Regular,Consolas,monospace;outline:none}
+      .pw:focus{border-color:#38bdf8}.scores{margin-top:7px;color:#94a3b8}.score{font-weight:750;color:#f8fafc}.ok{color:#4ade80}.bad{color:#f87171}
+      .reason{margin-top:6px;color:#94a3b8;font-size:11px}.actions{margin-top:9px;flex-wrap:wrap}
+      button{border:1px solid #334155;border-radius:5px;background:#172033;color:#e2e8f0;padding:6px 9px;font:600 11px inherit;cursor:pointer}
+      button:hover{border-color:#38bdf8}.primary{background:#0369a1;border-color:#0ea5e9;color:white}.apply{background:#166534;border-color:#22c55e;color:white}
+      button:disabled{opacity:.55;cursor:wait}
+    `;
+  }
+
+  function buildGeneratorHost(input, context, websiteContext, modules) {
+    if (generatorMap.has(context.targetField)) return;
+
+    const target = context.targetField;
+    const host = document.createElement('div');
+    host.className = '__vz-generator-host';
+    host.style.cssText = 'display:block;width:100%;max-width:440px;position:relative;z-index:2147483646;';
+    target.insertAdjacentElement('afterend', host);
+    const shadow = host.attachShadow({ mode: 'open' });
+    shadow.innerHTML = `
+      <style>${generatorCSS()}</style>
+      <section class="panel" aria-label="VaultZero password generator">
+        <div class="head">
+          <span class="title">Generate Password</span>
+          <span class="context">${websiteContext.brand} · ${context.type === 'password-change' ? 'Password change' : 'New account'}</span>
+        </div>
+        <input class="pw" type="text" autocomplete="off" spellcheck="false" aria-label="Generated password">
+        <div class="scores" hidden>
+          <span>Strength <b class="score strength">--</b></span>
+          <span>Personalized <b class="score personal">--</b></span>
+        </div>
+        <div class="reason">Generate a unique password for this account.</div>
+        <div class="actions">
+          <button class="primary generate">Generate</button>
+          <button class="regenerate" hidden>Regenerate</button>
+          <button class="copy" hidden>Copy</button>
+          <button class="analyze" hidden>Analyze</button>
+          <button class="apply" hidden>Use Password</button>
+        </div>
+      </section>`;
+
+    const elements = {
+      password: shadow.querySelector('.pw'),
+      scores: shadow.querySelector('.scores'),
+      strength: shadow.querySelector('.strength'),
+      personal: shadow.querySelector('.personal'),
+      reason: shadow.querySelector('.reason'),
+      generate: shadow.querySelector('.generate'),
+      regenerate: shadow.querySelector('.regenerate'),
+      copy: shadow.querySelector('.copy'),
+      analyze: shadow.querySelector('.analyze'),
+      apply: shadow.querySelector('.apply'),
+    };
+    const state = { host, shadow, target, confirmation: context.confirmationField, websiteContext, modules, elements, validation: null };
+    generatorMap.set(target, state);
+
+    async function validationOptions() {
+      const profile = await modules.profileStore.getProfile() || {};
+      await modules.dictCache.warmCache();
+      return {
+        profile,
+        username: nearbyUsername(target),
+        validation: {
+          dictionaryLookup: modules.dictCache.lookup,
+          dictionarySize: modules.dictCache.getSize(),
+        },
+      };
+    }
+
+    function renderValidation(result) {
+      state.validation = result;
+      elements.scores.hidden = false;
+      elements.strength.textContent = `${result.strengthScore}/100`;
+      elements.personal.textContent = `${result.personalizedAttackScore}/100`;
+      elements.strength.className = `score strength ${result.strengthScore > 80 ? 'ok' : 'bad'}`;
+      elements.personal.className = `score personal ${result.personalizedAttackScore > 80 ? 'ok' : 'bad'}`;
+      elements.reason.textContent = result.reasoning;
+      elements.apply.disabled = !result.passed;
+      for (const button of [elements.regenerate, elements.copy, elements.analyze, elements.apply]) button.hidden = false;
+    }
+
+    async function analyzeCurrent() {
+      const { profile, username, validation } = await validationOptions();
+      const result = await modules.validator.validateGeneratedPassword(elements.password.value, {
+        profile,
+        username,
+        domain: websiteContext.domain,
+        ...validation,
+      });
+      renderValidation(result);
+    }
+
+    async function generate() {
+      elements.generate.disabled = true;
+      elements.regenerate.disabled = true;
+      elements.reason.textContent = 'Generating and validating locally...';
+      try {
+        const { profile, username, validation } = await validationOptions();
+        const result = await modules.generator.generateContextAwarePassword({
+          profile,
+          websiteContext,
+          username,
+          validation,
+          options: { wordCount: 3, symbols: true },
+        });
+        elements.password.value = result.password;
+        renderValidation(result.validation);
+      } catch (error) {
+        elements.reason.textContent = error.message || 'No candidate passed every check. Try again.';
+      } finally {
+        elements.generate.disabled = false;
+        elements.regenerate.disabled = false;
+      }
+    }
+
+    let editTimer = null;
+    elements.password.addEventListener('input', () => {
+      clearTimeout(editTimer);
+      editTimer = setTimeout(analyzeCurrent, 100);
+    });
+    elements.generate.addEventListener('click', generate);
+    elements.regenerate.addEventListener('click', generate);
+    elements.analyze.addEventListener('click', analyzeCurrent);
+    elements.copy.addEventListener('click', async () => {
+      if (!elements.password.value) return;
+      await navigator.clipboard.writeText(elements.password.value);
+      elements.copy.textContent = 'Copied';
+      setTimeout(() => { elements.copy.textContent = 'Copy'; }, 1200);
+    });
+    elements.apply.addEventListener('click', async () => {
+      if (!state.validation?.passed) {
+        await analyzeCurrent();
+        if (!state.validation?.passed) return;
+      }
+      dispatchFieldValue(target, elements.password.value);
+      if (state.confirmation) dispatchFieldValue(state.confirmation, elements.password.value);
+      await modules.validator.rememberPasswordSignature(elements.password.value, websiteContext.domain);
+      target.focus();
+    });
+  }
+
+  async function scanForContextualGenerators() {
+    try {
+      const modules = await getContextModules();
+      const context = modules.detector.detectPasswordContext(document);
+      const websiteContext = modules.website.extractWebsiteContextFromDocument(document, window.location);
+      chrome.runtime.sendMessage({
+        type: 'NEW_PASSWORD_CONTEXT',
+        context: modules.detector.serializePasswordContext(context),
+        isNewPassword: context.eligible,
+        url: window.location.hostname,
+        websiteContext,
+      }).catch(() => {});
+
+      if (!settings.enableGenerator || !context.eligible || !context.targetField) {
+        removeAllGeneratorHosts();
+        return;
+      }
+      buildGeneratorHost(context.targetField, context, websiteContext, modules);
+    } catch (error) {
+      console.warn('[VaultZero] Context generator failed:', error);
+    }
+  }
 
   //  Analysis modules 
   let analysisReady = false;
@@ -192,7 +400,7 @@
     input.addEventListener('focus', () => {
       showWidget();
       loadDictCache();
-      detectNewPasswordContext();   // ← tell popup if this is a new-password field
+      scanForContextualGenerators();
       clearInterval(pollInterval);
 
       pollInterval = setInterval(() => {
@@ -552,10 +760,16 @@
     document.querySelectorAll('.__vz-widget-host').forEach(el => el.remove());
   }
 
+  function removeAllGeneratorHosts() {
+    document.querySelectorAll('.__vz-generator-host').forEach(el => el.remove());
+    generatorMap = new WeakMap();
+  }
+
   //  MutationObserver 
   function scanForPasswordFields() {
     const inputs = document.querySelectorAll('input[type="password"]');
     inputs.forEach(injectWidget);
+    scanForContextualGenerators();
     if (inputs.length > 0) {
       try {
         chrome.runtime.sendMessage({ type: 'FIELDS_DETECTED', count: inputs.length }).catch(() => {});
@@ -817,6 +1031,20 @@
         );
         if (userField) username = userField.value.trim();
         sendResponse({ password, username });
+        return true;
+      }
+      if (msg.type === 'GET_PASSWORD_CONTEXT') {
+        getContextModules().then((modules) => {
+          const context = modules.detector.detectPasswordContext(document);
+          const websiteContext = modules.website.extractWebsiteContextFromDocument(document, window.location);
+          sendResponse({
+            ...modules.detector.serializePasswordContext(context),
+            url: window.location.hostname,
+            websiteContext,
+          });
+        }).catch(() => {
+          sendResponse({ type: 'unknown', eligible: false, isNewPassword: false, url: window.location.hostname });
+        });
         return true;
       }
     });

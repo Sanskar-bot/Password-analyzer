@@ -74,14 +74,27 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
     // Content script reports a new-password context (signup / registration page)
     case 'NEW_PASSWORD_CONTEXT': {
-      if (tabId) tabNewPwCtx.set(tabId, { isNewPassword: msg.isNewPassword, url: msg.url });
+      if (tabId) {
+        tabNewPwCtx.set(tabId, {
+          type:           msg.context?.type || 'unknown',
+          eligible:       Boolean(msg.context?.eligible ?? msg.isNewPassword),
+          isNewPassword:  Boolean(msg.context?.eligible ?? msg.isNewPassword),
+          confidence:     msg.context?.confidence || 0,
+          reasons:        msg.context?.reasons || [],
+          fieldCount:     msg.context?.fieldCount || 0,
+          url:            msg.url || '',
+          websiteContext: msg.websiteContext || null,
+        });
+      }
       sendResponse({ ok: true });
       break;
     }
 
     // Popup queries whether the active tab has a new-password context
     case 'GET_NEW_PASSWORD_CONTEXT': {
-      const ctx = tabNewPwCtx.get(msg.tabId) || { isNewPassword: false, url: '' };
+      const ctx = tabNewPwCtx.get(msg.tabId) || {
+        type: 'unknown', eligible: false, isNewPassword: false, url: '',
+      };
       sendResponse(ctx);
       break;
     }

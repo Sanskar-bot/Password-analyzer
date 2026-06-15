@@ -2,8 +2,9 @@
   "manifest_version": 3,
   "name": "VaultZero — Password Analyzer",
   "short_name": "VaultZero",
-  "version": "2.0.0",
-  "description": "Real-time password strength analysis + personalized targeted-attack resistance. 100% local — your profile and passwords never leave your browser.",
+  "version": "2.1.0",
+  "description": "Real-time password strength analysis + context-aware personalized generator + targeted-attack resistance. 100% local — your profile and passwords never leave your browser.",
+
 
   "icons": {
     "16":  "assets/icon16.png",

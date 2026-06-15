@@ -24,6 +24,23 @@ No tracking. No APIs. No BS. Just pure, brutal password analysis.
 
 </div>
 
+## Browser Extension Context-Aware Generator
+
+The browser extension shows its personalized generator only on account creation
+and password-change forms. Standard login forms are excluded.
+
+The implementation is split across:
+
+- `extension/modules/contextDetector.js`
+- `extension/modules/websiteContext.js`
+- `extension/modules/profilePasswordGenerator.js`
+- `extension/modules/generatorValidator.js`
+
+Generated passwords combine a non-verbatim profile memory theme, website
+context, and cryptographically secure randomness. Candidates are rejected until
+strength and personalized attack scores both exceed 80, and edited passwords are
+revalidated immediately.
+
 ---
 
 ## ⚡ What Makes This Different?
