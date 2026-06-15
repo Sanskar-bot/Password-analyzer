@@ -555,36 +555,8 @@
 
     let debounceTimer = null;
 
-    // ── New-password context detection ─────────────────────────────────────
-    // Fired once when the user focuses the input so popup can auto-switch to
-    // the Generate tab and pre-select Personalized mode.
-    function detectNewPasswordContext() {
-      try {
-        const isNewPwAttr = input.autocomplete === 'new-password' ||
-                            input.getAttribute('autocomplete') === 'new-password';
-
-        // Two password fields on the same form → registration pattern
-        const form = input.closest('form') || document;
-        const allPwFields = [...form.querySelectorAll('input[type="password"]')];
-        const twoFields   = allPwFields.length >= 2;
-
-        // Registration keywords anywhere on the page
-        const pageText = (document.title + ' ' + document.body.innerText).toLowerCase().slice(0, 3000);
-        const regKeywords = ['sign up','register','create account','new account','join','get started'];
-        const hasRegKw = regKeywords.some(kw => pageText.includes(kw));
-
-        const isNewPassword = isNewPwAttr || twoFields || hasRegKw;
-
-        chrome.runtime.sendMessage({
-          type:          'NEW_PASSWORD_CONTEXT',
-          isNewPassword,
-          url:           window.location.hostname,
-        }).catch(() => {});
-      } catch (_) {}
-    }
-
-    // BUG FIX: React/SPA sites (Instagram, Gmail, etc.) fire synthetic events
-    // that bypass the native DOM "input" event. Listen to multiple event types.
+    // React/SPA sites fire synthetic events that bypass native DOM "input" events.
+    // Listen to multiple event types to catch any missed changes.
 
     function onValueChange() {
       if (!settings.enableWidget) return;
@@ -762,7 +734,7 @@
     await loadModules();
     if (!analysisReady) return;
 
-    const username = findNearbyUsername(input);
+    const username = nearbyUsername(input);
     const strength = analyseStrength(password);
     const patterns = detectPatterns(password);
     const wordlist = checkWordlist(password);
@@ -881,12 +853,14 @@
       personalEl.style.display = 'none';
     }
 
-    //  Background badge update 
-    try {
-      chrome.runtime.sendMessage({
-        type: 'SCORE_UPDATE', score, category, color, fieldCount: 1,
-      }).catch(() => {});
-    } catch (_) {}
+    //  Background badge update
+    if (ctxValid()) {
+      try {
+        chrome.runtime.sendMessage({
+          type: 'SCORE_UPDATE', score, category, color, fieldCount: 1,
+        }).catch(() => {});
+      } catch (_) {}
+    }
   }
 
   //  Issue collector (all issues with reasons) 
@@ -958,13 +932,6 @@
     el.className = active ? 'vz-chip vz-chip-on' : 'vz-chip vz-chip-off';
   }
 
-  function findNearbyUsername(passwordInput) {
-    const form = passwordInput.closest('form') || document;
-    const sel  = 'input[type="text"],input[type="email"],input[name*="user"],input[name*="email"],input[id*="user"],input[id*="email"]';
-    const candidates = form.querySelectorAll(sel);
-    if (candidates.length > 0) return candidates[0].value.trim();
-    return '';
-  }
 
   function removeAllWidgets() {
     document.querySelectorAll('.__vz-widget-host').forEach(el => el.remove());
@@ -980,7 +947,7 @@
     const inputs = document.querySelectorAll('input[type="password"]');
     inputs.forEach(injectWidget);
     scanForContextualGenerators();
-    if (inputs.length > 0) {
+    if (inputs.length > 0 && ctxValid()) {
       try {
         chrome.runtime.sendMessage({ type: 'FIELDS_DETECTED', count: inputs.length }).catch(() => {});
       } catch (_) {}
