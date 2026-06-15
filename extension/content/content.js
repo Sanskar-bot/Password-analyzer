@@ -659,19 +659,31 @@
     setChip(shadow.querySelector('#chip-digit'),  strength.hasDigit);
     setChip(shadow.querySelector('#chip-symbol'), strength.hasSymbol);
 
-    // ── Issues ────────────────────────────────────────────────────────────
+    // ── Issues — compact chip tiles with hover/tap tooltips ─────────────
     const issues        = collectAllIssues(strength, wordlist, patterns, ucheck);
     const issuesSection = shadow.querySelector('.vz-issues-section');
     const issuesList    = shadow.querySelector('.vz-issues-list');
     if (issues.length > 0) {
-      issuesList.innerHTML = issues.map(i => `
-        <div class="vz-issue vz-issue-${i.sev}">
-          <span class="vz-issue-dot"></span>
-          <div class="vz-issue-body">
-            <span class="vz-issue-title">${i.title}</span>
-            <span class="vz-issue-reason">${i.reason}</span>
+      const icon = { high: '⛔', medium: '⚠', low: '●' };
+      const fix  = { high: 'Critical — change this immediately.', medium: 'Warning — reduces your security score.', low: 'Tip — applying this improves strength.' };
+      issuesList.innerHTML = issues.map((i, idx) => `
+        <button class="vz-itile vz-itile-${i.sev}" data-idx="${idx}" type="button" aria-label="${i.title}">
+          <span class="vz-itile-icon" aria-hidden="true">${icon[i.sev] || '⚠'}</span>
+          <span class="vz-itile-label">${i.title}</span>
+          <div class="vz-itile-tip" role="tooltip">
+            <div class="vz-tip-header vz-tip-${i.sev}">${i.title}</div>
+            <div class="vz-tip-body">${i.reason}</div>
+            <div class="vz-tip-fix">${fix[i.sev]}</div>
           </div>
-        </div>`).join('');
+        </button>`).join('');
+      // Touch tap-to-toggle: close others, open tapped
+      issuesList.addEventListener('click', (e) => {
+        const tile = e.target.closest('.vz-itile');
+        if (!tile) return;
+        const isOpen = tile.hasAttribute('data-open');
+        issuesList.querySelectorAll('.vz-itile[data-open]').forEach(t => t.removeAttribute('data-open'));
+        if (!isOpen) tile.setAttribute('data-open', '');
+      }, { once: false });
     } else {
       issuesList.innerHTML = '<div class="vz-all-good">✓ No significant issues found</div>';
     }
@@ -1003,23 +1015,128 @@
       .vz-section { margin-bottom: 8px; }
       .vz-section-title { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: #334155; margin-bottom: 5px; padding-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
-      /* Issues */
-      .vz-issues-list { display: flex; flex-direction: column; gap: 4px; }
-      .vz-issue { display: flex; align-items: flex-start; gap: 7px; padding: 6px 8px; border-radius: 6px; border: 1px solid transparent; animation: vzSlide 0.2s ease both; }
-      @keyframes vzSlide { from { opacity:0; transform:translateX(-4px); } to { opacity:1; transform:none; } }
-      .vz-issue-high   { background: rgba(239,68,68,0.07);  border-color: rgba(239,68,68,0.2); }
-      .vz-issue-medium { background: rgba(245,158,11,0.07); border-color: rgba(245,158,11,0.2); }
-      .vz-issue-low    { background: rgba(59,130,246,0.06); border-color: rgba(59,130,246,0.15); }
-      .vz-issue-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
-      .vz-issue-high   .vz-issue-dot { background: #ef4444; box-shadow: 0 0 5px rgba(239,68,68,0.7); }
-      .vz-issue-medium .vz-issue-dot { background: #f59e0b; box-shadow: 0 0 5px rgba(245,158,11,0.7); }
-      .vz-issue-low    .vz-issue-dot { background: #3b82f6; box-shadow: 0 0 5px rgba(59,130,246,0.7); }
-      .vz-issue-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
-      .vz-issue-title  { font-size: 11px; font-weight: 700; color: #e2e8f0; line-height: 1.3; }
-      .vz-issue-reason { font-size: 10px; color: #64748b; line-height: 1.4; }
-      .vz-issue-high   .vz-issue-title { color: #fca5a5; }
-      .vz-issue-medium .vz-issue-title { color: #fcd34d; }
-      .vz-issue-low    .vz-issue-title { color: #93c5fd; }
+      /* ── Issue chip tiles ─────────────────────────────────────────────── */
+      .vz-issues-list {
+        display: flex; flex-wrap: wrap; gap: 5px;
+        margin-bottom: 2px;
+      }
+
+      /* Individual tile */
+      .vz-itile {
+        position: relative;
+        display: inline-flex; align-items: center; gap: 4px;
+        padding: 3px 8px 3px 6px;
+        border-radius: 20px;
+        font: 600 10px inherit;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: transform 0.12s, box-shadow 0.12s;
+        animation: vzTileIn 0.18s ease both;
+        white-space: nowrap;
+        /* tooltip anchor */
+        isolation: isolate;
+      }
+      @keyframes vzTileIn { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+      .vz-itile:hover  { transform: translateY(-1px); }
+      .vz-itile:active { transform: scale(0.97); }
+
+      /* Severity colours */
+      .vz-itile-high {
+        background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.3);
+        color: #fca5a5;
+      }
+      .vz-itile-high:hover { box-shadow: 0 0 8px rgba(239,68,68,0.25); }
+      .vz-itile-medium {
+        background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.3);
+        color: #fcd34d;
+      }
+      .vz-itile-medium:hover { box-shadow: 0 0 8px rgba(245,158,11,0.25); }
+      .vz-itile-low {
+        background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.25);
+        color: #93c5fd;
+      }
+      .vz-itile-low:hover { box-shadow: 0 0 8px rgba(59,130,246,0.2); }
+
+      .vz-itile-icon  { font-size: 9px; flex-shrink: 0; }
+      .vz-itile-label { font-size: 10px; }
+
+      /* Tooltip — shown on :hover (desktop) or [data-open] (touch) */
+      .vz-itile-tip {
+        position: absolute;
+        bottom: calc(100% + 6px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        background: #0f172a;
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 8px;
+        padding: 8px 10px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.15s, transform 0.15s;
+        transform: translateX(-50%) translateY(4px);
+        z-index: 9999;
+        text-align: left;
+        white-space: normal;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      }
+      /* Arrow */
+      .vz-itile-tip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 5px solid transparent;
+        border-top-color: rgba(255,255,255,0.12);
+      }
+
+      /* Show on hover (desktop) */
+      .vz-itile:hover .vz-itile-tip {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: none;
+      }
+      /* Show on tap (touch toggle) */
+      .vz-itile[data-open] .vz-itile-tip {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: none;
+      }
+
+      /* Clip tooltip to widget if it would overflow left edge */
+      .vz-itile:first-child .vz-itile-tip,
+      .vz-itile:nth-child(2) .vz-itile-tip {
+        left: 0;
+        transform: translateX(0) translateY(4px);
+      }
+      .vz-itile:first-child:hover .vz-itile-tip,
+      .vz-itile:nth-child(2):hover .vz-itile-tip,
+      .vz-itile:first-child[data-open] .vz-itile-tip,
+      .vz-itile:nth-child(2)[data-open] .vz-itile-tip {
+        transform: translateX(0) translateY(0);
+      }
+      .vz-itile:first-child .vz-itile-tip::after,
+      .vz-itile:nth-child(2) .vz-itile-tip::after { left: 16px; }
+
+      /* Tooltip content */
+      .vz-tip-header {
+        font-size: 10px; font-weight: 800; margin-bottom: 4px;
+        padding-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.07);
+      }
+      .vz-tip-header.vz-tip-high   { color: #fca5a5; }
+      .vz-tip-header.vz-tip-medium { color: #fcd34d; }
+      .vz-tip-header.vz-tip-low    { color: #93c5fd; }
+      .vz-tip-body {
+        font-size: 10px; color: #94a3b8; line-height: 1.45;
+        margin-bottom: 5px;
+      }
+      .vz-tip-fix {
+        font-size: 9px; font-weight: 700; text-transform: uppercase;
+        letter-spacing: 0.4px; color: #475569;
+      }
+
+      /* All-good banner */
       .vz-all-good { font-size: 11px; color: #4ade80; font-weight: 600; padding: 6px 8px; background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.2); border-radius: 6px; }
 
       /* Crack times */
